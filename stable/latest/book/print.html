@@ -4966,7 +4966,7 @@ This will compile the resources whenever we trigger a build with cargo and then 
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/build.rs">listings/build.rs</a></p>
 <pre><code class="language-rust  no_run noplayground">fn main() {
     glib_build_tools::compile_resources(
-        &quot;composite_templates/1/resources&quot;,
+        &amp;[&quot;composite_templates/1/resources&quot;],
         &quot;composite_templates/1/resources/resources.gresource.xml&quot;,
         &quot;composite_templates_1.gresource&quot;,
     );
