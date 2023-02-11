@@ -33,6 +33,7 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "";
@@ -398,8 +399,8 @@ Neither <code>Label</code> nor any other widget is mentioned here.</p>
 </span><span class="boring">        label.set_label(&amp;number.to_string());
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -490,8 +491,8 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 </span><span class="boring">        label.set_label(&amp;number.to_string());
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -579,8 +580,8 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
         label.set_label(&amp;number.to_string());
     });
 <span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -670,8 +671,8 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 </span><span class="boring">        label.set_label(&amp;number.to_string());
 </span><span class="boring">    });
 </span><span class="boring">
-</span>    let selection_model = SingleSelection::new(Some(&amp;model));
-    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span>    let selection_model = SingleSelection::new(Some(model));
+    let list_view = ListView::new(Some(selection_model), Some(factory));
 <span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -759,8 +760,8 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 </span><span class="boring">        label.set_label(&amp;number.to_string());
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span>    let scrolled_window = ScrolledWindow::builder()
         .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -875,8 +876,8 @@ For that we first add the method <code>increase_number</code> to our <code>Integ
 </span><span class="boring">            .build();
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span>    list_view.connect_activate(move |list_view, position| {
         // Get `IntegerObject` from model
@@ -980,8 +981,8 @@ One naive approach would be to bind the properties in the &quot;bind&quot; step 
             .build();
     });
 <span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    list_view.connect_activate(move |list_view, position| {
 </span><span class="boring">        // Get `IntegerObject` from model
@@ -1073,8 +1074,8 @@ Let's see how the &quot;setup&quot; step now works.</p>
             .bind(&amp;label, &quot;label&quot;, Widget::NONE);
     });
 <span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    list_view.connect_activate(move |list_view, position| {
 </span><span class="boring">        // Get `IntegerObject` from model
@@ -1181,7 +1182,7 @@ We do that by passing it to a <a href="../docs/gtk4/struct.FilterListModel.html"
         // Only allow even numbers
         number % 2 == 0
     });
-    let filter_model = FilterListModel::new(Some(&amp;model), Some(&amp;filter));
+    let filter_model = FilterListModel::new(Some(model), Some(filter.clone()));
 <span class="boring">
 </span><span class="boring">    let sorter = CustomSorter::new(move |obj1, obj2| {
 </span><span class="boring">        // Get `IntegerObject` from `glib::Object`
@@ -1199,10 +1200,10 @@ We do that by passing it to a <a href="../docs/gtk4/struct.FilterListModel.html"
 </span><span class="boring">        // Reverse sorting order -&gt; large numbers come first
 </span><span class="boring">        number_2.cmp(&amp;number_1).into()
 </span><span class="boring">    });
-</span><span class="boring">    let sort_model = SortListModel::new(Some(&amp;filter_model), Some(&amp;sorter));
+</span><span class="boring">    let sort_model = SortListModel::new(Some(filter_model), Some(sorter.clone()));
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;sort_model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(sort_model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    list_view.connect_activate(move |list_view, position| {
 </span><span class="boring">        // Get `IntegerObject` from model
@@ -1303,7 +1304,7 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">        // Only allow even numbers
 </span><span class="boring">        number % 2 == 0
 </span><span class="boring">    });
-</span><span class="boring">    let filter_model = FilterListModel::new(Some(&amp;model), Some(&amp;filter));
+</span><span class="boring">    let filter_model = FilterListModel::new(Some(model), Some(filter.clone()));
 </span><span class="boring">
 </span>    let sorter = CustomSorter::new(move |obj1, obj2| {
         // Get `IntegerObject` from `glib::Object`
@@ -1321,10 +1322,10 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
         // Reverse sorting order -&gt; large numbers come first
         number_2.cmp(&amp;number_1).into()
     });
-    let sort_model = SortListModel::new(Some(&amp;filter_model), Some(&amp;sorter));
+    let sort_model = SortListModel::new(Some(filter_model), Some(sorter.clone()));
 <span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;sort_model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(sort_model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    list_view.connect_activate(move |list_view, position| {
 </span><span class="boring">        // Get `IntegerObject` from model
@@ -1424,7 +1425,7 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">        // Only allow even numbers
 </span><span class="boring">        number % 2 == 0
 </span><span class="boring">    });
-</span><span class="boring">    let filter_model = FilterListModel::new(Some(&amp;model), Some(&amp;filter));
+</span><span class="boring">    let filter_model = FilterListModel::new(Some(model), Some(filter.clone()));
 </span><span class="boring">
 </span><span class="boring">    let sorter = CustomSorter::new(move |obj1, obj2| {
 </span><span class="boring">        // Get `IntegerObject` from `glib::Object`
@@ -1442,10 +1443,10 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">        // Reverse sorting order -&gt; large numbers come first
 </span><span class="boring">        number_2.cmp(&amp;number_1).into()
 </span><span class="boring">    });
-</span><span class="boring">    let sort_model = SortListModel::new(Some(&amp;filter_model), Some(&amp;sorter));
+</span><span class="boring">    let sort_model = SortListModel::new(Some(filter_model), Some(sorter.clone()));
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;sort_model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(sort_model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span>    list_view.connect_activate(move |list_view, position| {
         // Get `IntegerObject` from model
@@ -1535,8 +1536,8 @@ This is why we will skip this topic here.</p>
 </span><span class="boring">            .bind(&amp;label, &quot;label&quot;, Widget::NONE);
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = NoSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = NoSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -1604,8 +1605,8 @@ Here we can use <a href="../docs/gtk4/struct.StringObject.html"><code>StringObje
             .bind(&amp;label, &quot;label&quot;, Widget::NONE);
     });
 <span class="boring">
-</span><span class="boring">    let selection_model = NoSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = NoSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -1680,5 +1681,6 @@ However, if we need the widgets to be scalable, we still need to use <a href="..
         <!-- Custom JS scripts -->
 
 
+    </div>
     </body>
 </html>

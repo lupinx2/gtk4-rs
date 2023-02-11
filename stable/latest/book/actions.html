@@ -33,6 +33,7 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "";
@@ -327,7 +328,7 @@ Let's see how this works.</p>
 </span>fn build_ui(app: &amp;Application) {
     let original_state = 0;
     let label = Label::builder()
-        .label(&amp;format!(&quot;Counter: {original_state}&quot;))
+        .label(format!(&quot;Counter: {original_state}&quot;))
         .build();
 
     // Create a button with label
@@ -367,7 +368,7 @@ Let's see how this works.</p>
     let action_count = SimpleAction::new_stateful(
         &quot;count&quot;,
         Some(&amp;i32::static_variant_type()),
-        &amp;original_state.to_variant(),
+        original_state.to_variant(),
     );
     action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
         // Get state
@@ -385,7 +386,7 @@ Let's see how this works.</p>
 
         // Increase state by parameter and store state
         state += parameter;
-        action.set_state(&amp;state.to_variant());
+        action.set_state(state.to_variant());
 
         // Update label with new state
         label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -434,7 +435,7 @@ With <a href="../docs/gtk4/builders/struct.ButtonBuilder.html"><code>ButtonBuild
 </span><span class="boring">fn build_ui(app: &amp;Application) {
 </span><span class="boring">    let original_state = 0;
 </span><span class="boring">    let label = Label::builder()
-</span><span class="boring">        .label(&amp;format!(&quot;Counter: {original_state}&quot;))
+</span><span class="boring">        .label(format!(&quot;Counter: {original_state}&quot;))
 </span><span class="boring">        .build();
 </span>    // Create a button with label and action
     let button = Button::builder()
@@ -468,7 +469,7 @@ With <a href="../docs/gtk4/builders/struct.ButtonBuilder.html"><code>ButtonBuild
 </span><span class="boring">    let action_count = SimpleAction::new_stateful(
 </span><span class="boring">        &quot;count&quot;,
 </span><span class="boring">        Some(&amp;i32::static_variant_type()),
-</span><span class="boring">        &amp;original_state.to_variant(),
+</span><span class="boring">        original_state.to_variant(),
 </span><span class="boring">    );
 </span><span class="boring">    action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
 </span><span class="boring">        // Get state
@@ -486,7 +487,7 @@ With <a href="../docs/gtk4/builders/struct.ButtonBuilder.html"><code>ButtonBuild
 </span><span class="boring">
 </span><span class="boring">        // Increase state by parameter and save state
 </span><span class="boring">        state += parameter;
-</span><span class="boring">        action.set_state(&amp;state.to_variant());
+</span><span class="boring">        action.set_state(state.to_variant());
 </span><span class="boring">
 </span><span class="boring">        // Update label with new state
 </span><span class="boring">        label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -562,7 +563,7 @@ Within the template we can then set the &quot;action-name&quot; and &quot;action
         let action_count = SimpleAction::new_stateful(
             &quot;count&quot;,
             Some(&amp;i32::static_variant_type()),
-            &amp;original_state.to_variant(),
+            original_state.to_variant(),
         );
 
         action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
@@ -581,7 +582,7 @@ Within the template we can then set the &quot;action-name&quot; and &quot;action
 
             // Increase state by parameter and save state
             state += parameter;
-            action.set_state(&amp;state.to_variant());
+            action.set_state(state.to_variant());
 
             // Update label with new state
             label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -592,7 +593,6 @@ Within the template we can then set the &quot;action-name&quot; and &quot;action
 <p>Finally, <code>setup_actions</code> will be called within <code>constructed</code>.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/actions/5/window/imp.rs">listings/actions/5/window/imp.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use glib::subclass::InitializingObject;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{glib, CompositeTemplate, Label};
 </span><span class="boring">
@@ -687,7 +687,7 @@ This means that the caller can expect the boolean state to toggle after activati
 </span><span class="boring">        let action_count = SimpleAction::new_stateful(
 </span><span class="boring">            &quot;count&quot;,
 </span><span class="boring">            Some(&amp;i32::static_variant_type()),
-</span><span class="boring">            &amp;original_state.to_variant(),
+</span><span class="boring">            original_state.to_variant(),
 </span><span class="boring">        );
 </span><span class="boring">
 </span><span class="boring">        action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
@@ -706,7 +706,7 @@ This means that the caller can expect the boolean state to toggle after activati
 </span><span class="boring">
 </span><span class="boring">            // Increase state by parameter and save state
 </span><span class="boring">            state += parameter;
-</span><span class="boring">            action.set_state(&amp;state.to_variant());
+</span><span class="boring">            action.set_state(state.to_variant());
 </span><span class="boring">
 </span><span class="boring">            // Update label with new state
 </span><span class="boring">            label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -725,7 +725,7 @@ This means that the caller can expect the boolean state to toggle after activati
 </span><span class="boring">        let action_orientation = SimpleAction::new_stateful(
 </span><span class="boring">            &quot;orientation&quot;,
 </span><span class="boring">            Some(&amp;String::static_variant_type()),
-</span><span class="boring">            &amp;&quot;Vertical&quot;.to_variant(),
+</span><span class="boring">            &quot;Vertical&quot;.to_variant(),
 </span><span class="boring">        );
 </span><span class="boring">
 </span><span class="boring">        action_orientation.connect_activate(clone!(@weak gtk_box =&gt;
@@ -744,7 +744,7 @@ This means that the caller can expect the boolean state to toggle after activati
 </span><span class="boring">
 </span><span class="boring">                // Set orientation and save state
 </span><span class="boring">                gtk_box.set_orientation(orientation);
-</span><span class="boring">                action.set_state(&amp;parameter.to_variant());
+</span><span class="boring">                action.set_state(parameter.to_variant());
 </span><span class="boring">        }));
 </span><span class="boring">        self.add_action(&amp;action_orientation);
 </span><span class="boring">    }
@@ -791,7 +791,7 @@ We don't need the action state to implement orientation switching, however it is
 </span><span class="boring">        let action_count = SimpleAction::new_stateful(
 </span><span class="boring">            &quot;count&quot;,
 </span><span class="boring">            Some(&amp;i32::static_variant_type()),
-</span><span class="boring">            &amp;original_state.to_variant(),
+</span><span class="boring">            original_state.to_variant(),
 </span><span class="boring">        );
 </span><span class="boring">
 </span><span class="boring">        action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
@@ -810,7 +810,7 @@ We don't need the action state to implement orientation switching, however it is
 </span><span class="boring">
 </span><span class="boring">            // Increase state by parameter and save state
 </span><span class="boring">            state += parameter;
-</span><span class="boring">            action.set_state(&amp;state.to_variant());
+</span><span class="boring">            action.set_state(state.to_variant());
 </span><span class="boring">
 </span><span class="boring">            // Update label with new state
 </span><span class="boring">            label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -829,7 +829,7 @@ We don't need the action state to implement orientation switching, however it is
         let action_orientation = SimpleAction::new_stateful(
             &quot;orientation&quot;,
             Some(&amp;String::static_variant_type()),
-            &amp;&quot;Vertical&quot;.to_variant(),
+            &quot;Vertical&quot;.to_variant(),
         );
 
         action_orientation.connect_activate(clone!(@weak gtk_box =&gt;
@@ -848,7 +848,7 @@ We don't need the action state to implement orientation switching, however it is
 
                 // Set orientation and save state
                 gtk_box.set_orientation(orientation);
-                action.set_state(&amp;parameter.to_variant());
+                action.set_state(parameter.to_variant());
         }));
         self.add_action(&amp;action_orientation);
 <span class="boring">    }
@@ -949,7 +949,6 @@ Since <a href="https://gtk-rs.org/gtk-rs-core/stable/latest/docs/gio/struct.Sett
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/actions/7/window/imp.rs">listings/actions/7/window/imp.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use gio::Settings;
 </span><span class="boring">use glib::subclass::InitializingObject;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, Button, CompositeTemplate, Label};
 </span><span class="boring">use once_cell::sync::OnceCell;
@@ -1055,7 +1054,7 @@ pub struct Window {
 </span><span class="boring">        let action_count = SimpleAction::new_stateful(
 </span><span class="boring">            &quot;count&quot;,
 </span><span class="boring">            Some(&amp;i32::static_variant_type()),
-</span><span class="boring">            &amp;original_state.to_variant(),
+</span><span class="boring">            original_state.to_variant(),
 </span><span class="boring">        );
 </span><span class="boring">
 </span><span class="boring">        action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
@@ -1074,7 +1073,7 @@ pub struct Window {
 </span><span class="boring">
 </span><span class="boring">            // Increase state by parameter and save state
 </span><span class="boring">            state += parameter;
-</span><span class="boring">            action.set_state(&amp;state.to_variant());
+</span><span class="boring">            action.set_state(state.to_variant());
 </span><span class="boring">
 </span><span class="boring">            // Update label with new state
 </span><span class="boring">            label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -1177,7 +1176,7 @@ We create actions with the<a href="https://gtk-rs.org/gtk-rs-core/stable/latest/
 </span><span class="boring">        let action_count = SimpleAction::new_stateful(
 </span><span class="boring">            &quot;count&quot;,
 </span><span class="boring">            Some(&amp;i32::static_variant_type()),
-</span><span class="boring">            &amp;original_state.to_variant(),
+</span><span class="boring">            original_state.to_variant(),
 </span><span class="boring">        );
 </span><span class="boring">
 </span><span class="boring">        action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
@@ -1196,7 +1195,7 @@ We create actions with the<a href="https://gtk-rs.org/gtk-rs-core/stable/latest/
 </span><span class="boring">
 </span><span class="boring">            // Increase state by parameter and save state
 </span><span class="boring">            state += parameter;
-</span><span class="boring">            action.set_state(&amp;state.to_variant());
+</span><span class="boring">            action.set_state(state.to_variant());
 </span><span class="boring">
 </span><span class="boring">            // Update label with new state
 </span><span class="boring">            label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -1301,7 +1300,7 @@ For the stateful actions, instead of adding callbacks to their &quot;activate&qu
 </span><span class="boring">        let action_count = SimpleAction::new_stateful(
 </span><span class="boring">            &quot;count&quot;,
 </span><span class="boring">            Some(&amp;i32::static_variant_type()),
-</span><span class="boring">            &amp;original_state.to_variant(),
+</span><span class="boring">            original_state.to_variant(),
 </span><span class="boring">        );
 </span><span class="boring">
 </span><span class="boring">        action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
@@ -1320,7 +1319,7 @@ For the stateful actions, instead of adding callbacks to their &quot;activate&qu
 </span><span class="boring">
 </span><span class="boring">            // Increase state by parameter and save state
 </span><span class="boring">            state += parameter;
-</span><span class="boring">            action.set_state(&amp;state.to_variant());
+</span><span class="boring">            action.set_state(state.to_variant());
 </span><span class="boring">
 </span><span class="boring">            // Update label with new state
 </span><span class="boring">            label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -1377,7 +1376,6 @@ For the stateful actions, instead of adding callbacks to their &quot;activate&qu
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/actions/7/window/imp.rs">listings/actions/7/window/imp.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use gio::Settings;
 </span><span class="boring">use glib::subclass::InitializingObject;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, Button, CompositeTemplate, Label};
 </span><span class="boring">use once_cell::sync::OnceCell;
@@ -1485,5 +1483,6 @@ If you want to learn more about them, the <a href="https://developer.gnome.org/d
         <!-- Custom JS scripts -->
 
 
+    </div>
     </body>
 </html>

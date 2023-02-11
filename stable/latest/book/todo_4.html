@@ -33,6 +33,7 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "";
@@ -564,9 +565,8 @@ impl AdwApplicationWindowImpl for Window {}</code></pre>
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
-</span><span class="boring">        let filter_model =
-</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -663,7 +663,7 @@ impl AdwApplicationWindowImpl for Window {}</code></pre>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -1280,8 +1280,8 @@ pub struct Window {
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -1437,7 +1437,7 @@ pub struct Window {
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -1956,8 +1956,8 @@ To do that it uses the method <code>create_collection_row</code>.</p>
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -2113,7 +2113,7 @@ To do that it uses the method <code>create_collection_row</code>.</p>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -2413,8 +2413,8 @@ To do that it uses the method <code>create_collection_row</code>.</p>
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -2570,7 +2570,7 @@ To do that it uses the method <code>create_collection_row</code>.</p>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -2873,8 +2873,8 @@ We choose the first one and let the method <code>set_current_collection</code> d
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -3030,7 +3030,7 @@ We choose the first one and let the method <code>set_current_collection</code> d
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -3336,8 +3336,8 @@ Finally, we select the collection row.</p>
 </span>    fn set_current_collection(&amp;self, collection: CollectionObject) {
         // Wrap model with filter and selection and pass it to the list box
         let tasks = collection.tasks();
-        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-        let selection_model = NoSelection::new(Some(&amp;filter_model));
+        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+        let selection_model = NoSelection::new(Some(filter_model.clone()));
         self.imp().tasks_list.bind_model(
             Some(&amp;selection_model),
             clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -3493,7 +3493,7 @@ Finally, we select the collection row.</p>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -3794,8 +3794,8 @@ It assures that <code>tasks_list</code> is only visible if the number of tasks i
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -3951,7 +3951,7 @@ It assures that <code>tasks_list</code> is only visible if the number of tasks i
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -4251,8 +4251,8 @@ It assures that <code>tasks_list</code> is only visible if the number of tasks i
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -4408,7 +4408,7 @@ It assures that <code>tasks_list</code> is only visible if the number of tasks i
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -4725,8 +4725,8 @@ This action will be activated by a click on the <code>+</code> button as well as
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -4882,7 +4882,7 @@ This action will be activated by a click on the <code>+</code> button as well as
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -5188,8 +5188,8 @@ Afterwards we navigate forward on our leaflet, which means we navigate to the ta
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -5345,7 +5345,7 @@ Afterwards we navigate forward on our leaflet, which means we navigate to the ta
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -5651,8 +5651,8 @@ Finally, we connect to a click of the <code>back_button</code> in the task view 
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -5808,7 +5808,7 @@ Finally, we connect to a click of the <code>back_button</code> in the task view 
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -6109,8 +6109,8 @@ This method ensure when there is at least one collection, the &quot;main&quot; p
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -6266,7 +6266,7 @@ This method ensure when there is at least one collection, the &quot;main&quot; p
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -6447,5 +6447,6 @@ Which edge cases do you have to consider?</p>
         <!-- Custom JS scripts -->
 
 
+    </div>
     </body>
 </html>

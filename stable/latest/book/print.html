@@ -34,6 +34,7 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "";
@@ -3632,8 +3633,8 @@ Neither <code>Label</code> nor any other widget is mentioned here.</p>
 </span><span class="boring">        label.set_label(&amp;number.to_string());
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -3724,8 +3725,8 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 </span><span class="boring">        label.set_label(&amp;number.to_string());
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -3813,8 +3814,8 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
         label.set_label(&amp;number.to_string());
     });
 <span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -3904,8 +3905,8 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 </span><span class="boring">        label.set_label(&amp;number.to_string());
 </span><span class="boring">    });
 </span><span class="boring">
-</span>    let selection_model = SingleSelection::new(Some(&amp;model));
-    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span>    let selection_model = SingleSelection::new(Some(model));
+    let list_view = ListView::new(Some(selection_model), Some(factory));
 <span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -3993,8 +3994,8 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 </span><span class="boring">        label.set_label(&amp;number.to_string());
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span>    let scrolled_window = ScrolledWindow::builder()
         .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -4109,8 +4110,8 @@ For that we first add the method <code>increase_number</code> to our <code>Integ
 </span><span class="boring">            .build();
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span>    list_view.connect_activate(move |list_view, position| {
         // Get `IntegerObject` from model
@@ -4214,8 +4215,8 @@ One naive approach would be to bind the properties in the &quot;bind&quot; step 
             .build();
     });
 <span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    list_view.connect_activate(move |list_view, position| {
 </span><span class="boring">        // Get `IntegerObject` from model
@@ -4307,8 +4308,8 @@ Let's see how the &quot;setup&quot; step now works.</p>
             .bind(&amp;label, &quot;label&quot;, Widget::NONE);
     });
 <span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    list_view.connect_activate(move |list_view, position| {
 </span><span class="boring">        // Get `IntegerObject` from model
@@ -4415,7 +4416,7 @@ We do that by passing it to a <a href="../docs/gtk4/struct.FilterListModel.html"
         // Only allow even numbers
         number % 2 == 0
     });
-    let filter_model = FilterListModel::new(Some(&amp;model), Some(&amp;filter));
+    let filter_model = FilterListModel::new(Some(model), Some(filter.clone()));
 <span class="boring">
 </span><span class="boring">    let sorter = CustomSorter::new(move |obj1, obj2| {
 </span><span class="boring">        // Get `IntegerObject` from `glib::Object`
@@ -4433,10 +4434,10 @@ We do that by passing it to a <a href="../docs/gtk4/struct.FilterListModel.html"
 </span><span class="boring">        // Reverse sorting order -&gt; large numbers come first
 </span><span class="boring">        number_2.cmp(&amp;number_1).into()
 </span><span class="boring">    });
-</span><span class="boring">    let sort_model = SortListModel::new(Some(&amp;filter_model), Some(&amp;sorter));
+</span><span class="boring">    let sort_model = SortListModel::new(Some(filter_model), Some(sorter.clone()));
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;sort_model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(sort_model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    list_view.connect_activate(move |list_view, position| {
 </span><span class="boring">        // Get `IntegerObject` from model
@@ -4537,7 +4538,7 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">        // Only allow even numbers
 </span><span class="boring">        number % 2 == 0
 </span><span class="boring">    });
-</span><span class="boring">    let filter_model = FilterListModel::new(Some(&amp;model), Some(&amp;filter));
+</span><span class="boring">    let filter_model = FilterListModel::new(Some(model), Some(filter.clone()));
 </span><span class="boring">
 </span>    let sorter = CustomSorter::new(move |obj1, obj2| {
         // Get `IntegerObject` from `glib::Object`
@@ -4555,10 +4556,10 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
         // Reverse sorting order -&gt; large numbers come first
         number_2.cmp(&amp;number_1).into()
     });
-    let sort_model = SortListModel::new(Some(&amp;filter_model), Some(&amp;sorter));
+    let sort_model = SortListModel::new(Some(filter_model), Some(sorter.clone()));
 <span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;sort_model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(sort_model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    list_view.connect_activate(move |list_view, position| {
 </span><span class="boring">        // Get `IntegerObject` from model
@@ -4658,7 +4659,7 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">        // Only allow even numbers
 </span><span class="boring">        number % 2 == 0
 </span><span class="boring">    });
-</span><span class="boring">    let filter_model = FilterListModel::new(Some(&amp;model), Some(&amp;filter));
+</span><span class="boring">    let filter_model = FilterListModel::new(Some(model), Some(filter.clone()));
 </span><span class="boring">
 </span><span class="boring">    let sorter = CustomSorter::new(move |obj1, obj2| {
 </span><span class="boring">        // Get `IntegerObject` from `glib::Object`
@@ -4676,10 +4677,10 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">        // Reverse sorting order -&gt; large numbers come first
 </span><span class="boring">        number_2.cmp(&amp;number_1).into()
 </span><span class="boring">    });
-</span><span class="boring">    let sort_model = SortListModel::new(Some(&amp;filter_model), Some(&amp;sorter));
+</span><span class="boring">    let sort_model = SortListModel::new(Some(filter_model), Some(sorter.clone()));
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;sort_model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(sort_model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span>    list_view.connect_activate(move |list_view, position| {
         // Get `IntegerObject` from model
@@ -4769,8 +4770,8 @@ This is why we will skip this topic here.</p>
 </span><span class="boring">            .bind(&amp;label, &quot;label&quot;, Widget::NONE);
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = NoSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = NoSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -4838,8 +4839,8 @@ Here we can use <a href="../docs/gtk4/struct.StringObject.html"><code>StringObje
             .bind(&amp;label, &quot;label&quot;, Widget::NONE);
     });
 <span class="boring">
-</span><span class="boring">    let selection_model = NoSelection::new(Some(&amp;model));
-</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
+</span><span class="boring">    let selection_model = NoSelection::new(Some(model));
+</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -5828,7 +5829,7 @@ As usual, we have to list all <a href="https://docs.gtk.org/gtk4/class.Applicati
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with selection and pass it to the list view
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;self.tasks()));
+</span><span class="boring">        let selection_model = NoSelection::new(Some(self.tasks()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">    }
 </span><span class="boring">
@@ -5851,7 +5852,7 @@ As usual, we have to list all <a href="https://docs.gtk.org/gtk4/class.Applicati
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -5923,7 +5924,6 @@ We only have to assure that the <code>class</code> attribute of the template in 
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">
 </span><span class="boring">use glib::subclass::InitializingObject;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, CompositeTemplate, Entry, ListView};
 </span><span class="boring">
@@ -6259,7 +6259,6 @@ Why we need that will become clear as soon as we get to bind the state of <code>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">
 </span><span class="boring">use glib::Binding;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{glib, CheckButton, CompositeTemplate, Label};
 </span><span class="boring">
@@ -6306,7 +6305,6 @@ We override the <code>imp::Window::constructed</code> in order to set up window 
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">
 </span><span class="boring">use glib::subclass::InitializingObject;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, CompositeTemplate, Entry, ListView};
 </span><span class="boring">
@@ -6404,7 +6402,7 @@ Then we store a reference to the model in <code>imp::Window</code> as well as in
         self.imp().tasks.replace(Some(model));
 
         // Wrap model with selection and pass it to the list view
-        let selection_model = NoSelection::new(Some(&amp;self.tasks()));
+        let selection_model = NoSelection::new(Some(self.tasks()));
         self.imp().tasks_list.set_model(Some(&amp;selection_model));
     }
 <span class="boring">
@@ -6427,7 +6425,7 @@ Then we store a reference to the model in <code>imp::Window</code> as well as in
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -6535,7 +6533,7 @@ Finally, the entry will be cleared.</p>
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with selection and pass it to the list view
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;self.tasks()));
+</span><span class="boring">        let selection_model = NoSelection::new(Some(self.tasks()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">    }
 </span><span class="boring">
@@ -6558,7 +6556,7 @@ Finally, the entry will be cleared.</p>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -6672,7 +6670,7 @@ We will need to unbind them manually when they are no longer needed.</p>
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with selection and pass it to the list view
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;self.tasks()));
+</span><span class="boring">        let selection_model = NoSelection::new(Some(self.tasks()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">    }
 </span><span class="boring">
@@ -6695,7 +6693,7 @@ We will need to unbind them manually when they are no longer needed.</p>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -7106,7 +7104,7 @@ Let's see how this works.</p>
 </span>fn build_ui(app: &amp;Application) {
     let original_state = 0;
     let label = Label::builder()
-        .label(&amp;format!(&quot;Counter: {original_state}&quot;))
+        .label(format!(&quot;Counter: {original_state}&quot;))
         .build();
 
     // Create a button with label
@@ -7146,7 +7144,7 @@ Let's see how this works.</p>
     let action_count = SimpleAction::new_stateful(
         &quot;count&quot;,
         Some(&amp;i32::static_variant_type()),
-        &amp;original_state.to_variant(),
+        original_state.to_variant(),
     );
     action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
         // Get state
@@ -7164,7 +7162,7 @@ Let's see how this works.</p>
 
         // Increase state by parameter and store state
         state += parameter;
-        action.set_state(&amp;state.to_variant());
+        action.set_state(state.to_variant());
 
         // Update label with new state
         label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -7213,7 +7211,7 @@ With <a href="../docs/gtk4/builders/struct.ButtonBuilder.html"><code>ButtonBuild
 </span><span class="boring">fn build_ui(app: &amp;Application) {
 </span><span class="boring">    let original_state = 0;
 </span><span class="boring">    let label = Label::builder()
-</span><span class="boring">        .label(&amp;format!(&quot;Counter: {original_state}&quot;))
+</span><span class="boring">        .label(format!(&quot;Counter: {original_state}&quot;))
 </span><span class="boring">        .build();
 </span>    // Create a button with label and action
     let button = Button::builder()
@@ -7247,7 +7245,7 @@ With <a href="../docs/gtk4/builders/struct.ButtonBuilder.html"><code>ButtonBuild
 </span><span class="boring">    let action_count = SimpleAction::new_stateful(
 </span><span class="boring">        &quot;count&quot;,
 </span><span class="boring">        Some(&amp;i32::static_variant_type()),
-</span><span class="boring">        &amp;original_state.to_variant(),
+</span><span class="boring">        original_state.to_variant(),
 </span><span class="boring">    );
 </span><span class="boring">    action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
 </span><span class="boring">        // Get state
@@ -7265,7 +7263,7 @@ With <a href="../docs/gtk4/builders/struct.ButtonBuilder.html"><code>ButtonBuild
 </span><span class="boring">
 </span><span class="boring">        // Increase state by parameter and save state
 </span><span class="boring">        state += parameter;
-</span><span class="boring">        action.set_state(&amp;state.to_variant());
+</span><span class="boring">        action.set_state(state.to_variant());
 </span><span class="boring">
 </span><span class="boring">        // Update label with new state
 </span><span class="boring">        label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -7341,7 +7339,7 @@ Within the template we can then set the &quot;action-name&quot; and &quot;action
         let action_count = SimpleAction::new_stateful(
             &quot;count&quot;,
             Some(&amp;i32::static_variant_type()),
-            &amp;original_state.to_variant(),
+            original_state.to_variant(),
         );
 
         action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
@@ -7360,7 +7358,7 @@ Within the template we can then set the &quot;action-name&quot; and &quot;action
 
             // Increase state by parameter and save state
             state += parameter;
-            action.set_state(&amp;state.to_variant());
+            action.set_state(state.to_variant());
 
             // Update label with new state
             label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -7371,7 +7369,6 @@ Within the template we can then set the &quot;action-name&quot; and &quot;action
 <p>Finally, <code>setup_actions</code> will be called within <code>constructed</code>.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/actions/5/window/imp.rs">listings/actions/5/window/imp.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use glib::subclass::InitializingObject;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{glib, CompositeTemplate, Label};
 </span><span class="boring">
@@ -7466,7 +7463,7 @@ This means that the caller can expect the boolean state to toggle after activati
 </span><span class="boring">        let action_count = SimpleAction::new_stateful(
 </span><span class="boring">            &quot;count&quot;,
 </span><span class="boring">            Some(&amp;i32::static_variant_type()),
-</span><span class="boring">            &amp;original_state.to_variant(),
+</span><span class="boring">            original_state.to_variant(),
 </span><span class="boring">        );
 </span><span class="boring">
 </span><span class="boring">        action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
@@ -7485,7 +7482,7 @@ This means that the caller can expect the boolean state to toggle after activati
 </span><span class="boring">
 </span><span class="boring">            // Increase state by parameter and save state
 </span><span class="boring">            state += parameter;
-</span><span class="boring">            action.set_state(&amp;state.to_variant());
+</span><span class="boring">            action.set_state(state.to_variant());
 </span><span class="boring">
 </span><span class="boring">            // Update label with new state
 </span><span class="boring">            label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -7504,7 +7501,7 @@ This means that the caller can expect the boolean state to toggle after activati
 </span><span class="boring">        let action_orientation = SimpleAction::new_stateful(
 </span><span class="boring">            &quot;orientation&quot;,
 </span><span class="boring">            Some(&amp;String::static_variant_type()),
-</span><span class="boring">            &amp;&quot;Vertical&quot;.to_variant(),
+</span><span class="boring">            &quot;Vertical&quot;.to_variant(),
 </span><span class="boring">        );
 </span><span class="boring">
 </span><span class="boring">        action_orientation.connect_activate(clone!(@weak gtk_box =&gt;
@@ -7523,7 +7520,7 @@ This means that the caller can expect the boolean state to toggle after activati
 </span><span class="boring">
 </span><span class="boring">                // Set orientation and save state
 </span><span class="boring">                gtk_box.set_orientation(orientation);
-</span><span class="boring">                action.set_state(&amp;parameter.to_variant());
+</span><span class="boring">                action.set_state(parameter.to_variant());
 </span><span class="boring">        }));
 </span><span class="boring">        self.add_action(&amp;action_orientation);
 </span><span class="boring">    }
@@ -7570,7 +7567,7 @@ We don't need the action state to implement orientation switching, however it is
 </span><span class="boring">        let action_count = SimpleAction::new_stateful(
 </span><span class="boring">            &quot;count&quot;,
 </span><span class="boring">            Some(&amp;i32::static_variant_type()),
-</span><span class="boring">            &amp;original_state.to_variant(),
+</span><span class="boring">            original_state.to_variant(),
 </span><span class="boring">        );
 </span><span class="boring">
 </span><span class="boring">        action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
@@ -7589,7 +7586,7 @@ We don't need the action state to implement orientation switching, however it is
 </span><span class="boring">
 </span><span class="boring">            // Increase state by parameter and save state
 </span><span class="boring">            state += parameter;
-</span><span class="boring">            action.set_state(&amp;state.to_variant());
+</span><span class="boring">            action.set_state(state.to_variant());
 </span><span class="boring">
 </span><span class="boring">            // Update label with new state
 </span><span class="boring">            label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -7608,7 +7605,7 @@ We don't need the action state to implement orientation switching, however it is
         let action_orientation = SimpleAction::new_stateful(
             &quot;orientation&quot;,
             Some(&amp;String::static_variant_type()),
-            &amp;&quot;Vertical&quot;.to_variant(),
+            &quot;Vertical&quot;.to_variant(),
         );
 
         action_orientation.connect_activate(clone!(@weak gtk_box =&gt;
@@ -7627,7 +7624,7 @@ We don't need the action state to implement orientation switching, however it is
 
                 // Set orientation and save state
                 gtk_box.set_orientation(orientation);
-                action.set_state(&amp;parameter.to_variant());
+                action.set_state(parameter.to_variant());
         }));
         self.add_action(&amp;action_orientation);
 <span class="boring">    }
@@ -7728,7 +7725,6 @@ Since <a href="https://gtk-rs.org/gtk-rs-core/stable/latest/docs/gio/struct.Sett
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/actions/7/window/imp.rs">listings/actions/7/window/imp.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use gio::Settings;
 </span><span class="boring">use glib::subclass::InitializingObject;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, Button, CompositeTemplate, Label};
 </span><span class="boring">use once_cell::sync::OnceCell;
@@ -7834,7 +7830,7 @@ pub struct Window {
 </span><span class="boring">        let action_count = SimpleAction::new_stateful(
 </span><span class="boring">            &quot;count&quot;,
 </span><span class="boring">            Some(&amp;i32::static_variant_type()),
-</span><span class="boring">            &amp;original_state.to_variant(),
+</span><span class="boring">            original_state.to_variant(),
 </span><span class="boring">        );
 </span><span class="boring">
 </span><span class="boring">        action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
@@ -7853,7 +7849,7 @@ pub struct Window {
 </span><span class="boring">
 </span><span class="boring">            // Increase state by parameter and save state
 </span><span class="boring">            state += parameter;
-</span><span class="boring">            action.set_state(&amp;state.to_variant());
+</span><span class="boring">            action.set_state(state.to_variant());
 </span><span class="boring">
 </span><span class="boring">            // Update label with new state
 </span><span class="boring">            label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -7956,7 +7952,7 @@ We create actions with the<a href="https://gtk-rs.org/gtk-rs-core/stable/latest/
 </span><span class="boring">        let action_count = SimpleAction::new_stateful(
 </span><span class="boring">            &quot;count&quot;,
 </span><span class="boring">            Some(&amp;i32::static_variant_type()),
-</span><span class="boring">            &amp;original_state.to_variant(),
+</span><span class="boring">            original_state.to_variant(),
 </span><span class="boring">        );
 </span><span class="boring">
 </span><span class="boring">        action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
@@ -7975,7 +7971,7 @@ We create actions with the<a href="https://gtk-rs.org/gtk-rs-core/stable/latest/
 </span><span class="boring">
 </span><span class="boring">            // Increase state by parameter and save state
 </span><span class="boring">            state += parameter;
-</span><span class="boring">            action.set_state(&amp;state.to_variant());
+</span><span class="boring">            action.set_state(state.to_variant());
 </span><span class="boring">
 </span><span class="boring">            // Update label with new state
 </span><span class="boring">            label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -8080,7 +8076,7 @@ For the stateful actions, instead of adding callbacks to their &quot;activate&qu
 </span><span class="boring">        let action_count = SimpleAction::new_stateful(
 </span><span class="boring">            &quot;count&quot;,
 </span><span class="boring">            Some(&amp;i32::static_variant_type()),
-</span><span class="boring">            &amp;original_state.to_variant(),
+</span><span class="boring">            original_state.to_variant(),
 </span><span class="boring">        );
 </span><span class="boring">
 </span><span class="boring">        action_count.connect_activate(clone!(@weak label =&gt; move |action, parameter| {
@@ -8099,7 +8095,7 @@ For the stateful actions, instead of adding callbacks to their &quot;activate&qu
 </span><span class="boring">
 </span><span class="boring">            // Increase state by parameter and save state
 </span><span class="boring">            state += parameter;
-</span><span class="boring">            action.set_state(&amp;state.to_variant());
+</span><span class="boring">            action.set_state(state.to_variant());
 </span><span class="boring">
 </span><span class="boring">            // Update label with new state
 </span><span class="boring">            label.set_label(&amp;format!(&quot;Counter: {state}&quot;));
@@ -8156,7 +8152,6 @@ For the stateful actions, instead of adding callbacks to their &quot;activate&qu
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/actions/7/window/imp.rs">listings/actions/7/window/imp.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use gio::Settings;
 </span><span class="boring">use glib::subclass::InitializingObject;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, Button, CompositeTemplate, Label};
 </span><span class="boring">use once_cell::sync::OnceCell;
@@ -8487,9 +8482,8 @@ pub struct Window {
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list view
-</span><span class="boring">        let filter_model =
-</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">
 </span><span class="boring">        // Filter model whenever the value of the key &quot;filter&quot; changes
@@ -8538,7 +8532,7 @@ pub struct Window {
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -8772,9 +8766,8 @@ We also add an action which allows us to remove done tasks. </p>
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list view
-</span><span class="boring">        let filter_model =
-</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">
 </span><span class="boring">        // Filter model whenever the value of the key &quot;filter&quot; changes
@@ -8823,7 +8816,7 @@ We also add an action which allows us to remove done tasks. </p>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -9019,9 +9012,8 @@ If the state is &quot;All&quot; nothing has to be filtered out, so we return <co
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list view
-</span><span class="boring">        let filter_model =
-</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">
 </span><span class="boring">        // Filter model whenever the value of the key &quot;filter&quot; changes
@@ -9070,7 +9062,7 @@ If the state is &quot;All&quot; nothing has to be filtered out, so we return <co
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -9264,9 +9256,8 @@ Whenever the state of the key &quot;filter&quot; changes, we call the method <co
         self.imp().tasks.replace(Some(model));
 
         // Wrap model with filter and selection and pass it to the list view
-        let filter_model =
-            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
-        let selection_model = NoSelection::new(Some(&amp;filter_model));
+        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
+        let selection_model = NoSelection::new(Some(filter_model.clone()));
         self.imp().tasks_list.set_model(Some(&amp;selection_model));
 
         // Filter model whenever the value of the key &quot;filter&quot; changes
@@ -9315,7 +9306,7 @@ Whenever the state of the key &quot;filter&quot; changes, we call the method <co
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -9821,9 +9812,8 @@ It might be the first time that we started the app and therefore there is no for
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list view
-</span><span class="boring">        let filter_model =
-</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">
 </span><span class="boring">        // Filter model whenever the value of the key &quot;filter&quot; changes
@@ -9872,7 +9862,7 @@ It might be the first time that we started the app and therefore there is no for
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -10098,7 +10088,7 @@ fn main() {
 fn load_css() {
     // Load the CSS file and add it to the provider
     let provider = CssProvider::new();
-    provider.load_from_data(include_bytes!(&quot;style.css&quot;));
+    provider.load_from_data(include_str!(&quot;style.css&quot;));
 
     // Add the provider to the default screen
     StyleContext::add_provider_for_display(
@@ -10181,7 +10171,7 @@ Which is why we add the style class <code>button-1</code> to the first one.</p>
 </span><span class="boring">fn load_css() {
 </span><span class="boring">    // Load the CSS file and add it to the provider
 </span><span class="boring">    let provider = CssProvider::new();
-</span><span class="boring">    provider.load_from_data(include_bytes!(&quot;style.css&quot;));
+</span><span class="boring">    provider.load_from_data(include_str!(&quot;style.css&quot;));
 </span><span class="boring">
 </span><span class="boring">    // Add the provider to the default screen
 </span><span class="boring">    StyleContext::add_provider_for_display(
@@ -10253,7 +10243,7 @@ We set the name of the first one with <a href="../docs/gtk4/prelude/trait.Widget
 </span><span class="boring">fn load_css() {
 </span><span class="boring">    // Load the CSS file and add it to the provider
 </span><span class="boring">    let provider = CssProvider::new();
-</span><span class="boring">    provider.load_from_data(include_bytes!(&quot;style.css&quot;));
+</span><span class="boring">    provider.load_from_data(include_str!(&quot;style.css&quot;));
 </span><span class="boring">
 </span><span class="boring">    // Add the provider to the default screen
 </span><span class="boring">    StyleContext::add_provider_for_display(
@@ -10475,7 +10465,6 @@ In our case, the widget <code>TaskRow</code> then corresponds to the node <code>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">
 </span><span class="boring">use glib::Binding;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{glib, CheckButton, CompositeTemplate, Label};
 </span><span class="boring">
@@ -10756,9 +10745,8 @@ fn build_ui(app: &amp;adw::Application) {
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list view
-</span><span class="boring">        let filter_model =
-</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">
 </span><span class="boring">        // Filter model whenever the value of the key &quot;filter&quot; changes
@@ -10807,7 +10795,7 @@ fn build_ui(app: &amp;adw::Application) {
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -11156,9 +11144,8 @@ There we specify the model, as well as a closure describing how to transform the
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span>        // Wrap model with filter and selection and pass it to the list box
-        let filter_model =
-            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
-        let selection_model = NoSelection::new(Some(&amp;filter_model));
+        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
+        let selection_model = NoSelection::new(Some(filter_model.clone()));
         self.imp().tasks_list.bind_model(
             Some(&amp;selection_model),
             clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -11255,7 +11242,7 @@ There we specify the model, as well as a closure describing how to transform the
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -11392,9 +11379,8 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
-</span><span class="boring">        let filter_model =
-</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -11491,7 +11477,7 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -11625,9 +11611,8 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
-</span><span class="boring">        let filter_model =
-</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -11724,7 +11709,7 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -11858,9 +11843,8 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
-</span><span class="boring">        let filter_model =
-</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -11957,7 +11941,7 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -12418,9 +12402,8 @@ impl AdwApplicationWindowImpl for Window {}</code></pre>
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
-</span><span class="boring">        let filter_model =
-</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -12517,7 +12500,7 @@ impl AdwApplicationWindowImpl for Window {}</code></pre>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -13134,8 +13117,8 @@ pub struct Window {
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -13291,7 +13274,7 @@ pub struct Window {
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -13810,8 +13793,8 @@ To do that it uses the method <code>create_collection_row</code>.</p>
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -13967,7 +13950,7 @@ To do that it uses the method <code>create_collection_row</code>.</p>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -14267,8 +14250,8 @@ To do that it uses the method <code>create_collection_row</code>.</p>
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -14424,7 +14407,7 @@ To do that it uses the method <code>create_collection_row</code>.</p>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -14727,8 +14710,8 @@ We choose the first one and let the method <code>set_current_collection</code> d
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -14884,7 +14867,7 @@ We choose the first one and let the method <code>set_current_collection</code> d
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -15190,8 +15173,8 @@ Finally, we select the collection row.</p>
 </span>    fn set_current_collection(&amp;self, collection: CollectionObject) {
         // Wrap model with filter and selection and pass it to the list box
         let tasks = collection.tasks();
-        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-        let selection_model = NoSelection::new(Some(&amp;filter_model));
+        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+        let selection_model = NoSelection::new(Some(filter_model.clone()));
         self.imp().tasks_list.bind_model(
             Some(&amp;selection_model),
             clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -15347,7 +15330,7 @@ Finally, we select the collection row.</p>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -15648,8 +15631,8 @@ It assures that <code>tasks_list</code> is only visible if the number of tasks i
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -15805,7 +15788,7 @@ It assures that <code>tasks_list</code> is only visible if the number of tasks i
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -16105,8 +16088,8 @@ It assures that <code>tasks_list</code> is only visible if the number of tasks i
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -16262,7 +16245,7 @@ It assures that <code>tasks_list</code> is only visible if the number of tasks i
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -16579,8 +16562,8 @@ This action will be activated by a click on the <code>+</code> button as well as
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -16736,7 +16719,7 @@ This action will be activated by a click on the <code>+</code> button as well as
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -17042,8 +17025,8 @@ Afterwards we navigate forward on our leaflet, which means we navigate to the ta
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -17199,7 +17182,7 @@ Afterwards we navigate forward on our leaflet, which means we navigate to the ta
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -17505,8 +17488,8 @@ Finally, we connect to a click of the <code>back_button</code> in the task view 
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -17662,7 +17645,7 @@ Finally, we connect to a click of the <code>back_button</code> in the task view 
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -17963,8 +17946,8 @@ This method ensure when there is at least one collection, the &quot;main&quot; p
 </span><span class="boring">    fn set_current_collection(&amp;self, collection: CollectionObject) {
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
 </span><span class="boring">        let tasks = collection.tasks();
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(&amp;tasks), self.filter().as_ref());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
+</span><span class="boring">        let filter_model = FilterListModel::new(Some(tasks.clone()), self.filter());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -18120,7 +18103,7 @@ This method ensure when there is at least one collection, the &quot;main&quot; p
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -18300,5 +18283,6 @@ Which edge cases do you have to consider?</p>
         });
         </script>
 
+    </div>
     </body>
 </html>

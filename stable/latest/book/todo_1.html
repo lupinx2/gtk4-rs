@@ -33,6 +33,7 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "";
@@ -235,7 +236,7 @@ As usual, we have to list all <a href="https://docs.gtk.org/gtk4/class.Applicati
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with selection and pass it to the list view
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;self.tasks()));
+</span><span class="boring">        let selection_model = NoSelection::new(Some(self.tasks()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">    }
 </span><span class="boring">
@@ -258,7 +259,7 @@ As usual, we have to list all <a href="https://docs.gtk.org/gtk4/class.Applicati
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -330,7 +331,6 @@ We only have to assure that the <code>class</code> attribute of the template in 
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">
 </span><span class="boring">use glib::subclass::InitializingObject;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, CompositeTemplate, Entry, ListView};
 </span><span class="boring">
@@ -666,7 +666,6 @@ Why we need that will become clear as soon as we get to bind the state of <code>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">
 </span><span class="boring">use glib::Binding;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{glib, CheckButton, CompositeTemplate, Label};
 </span><span class="boring">
@@ -713,7 +712,6 @@ We override the <code>imp::Window::constructed</code> in order to set up window 
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">
 </span><span class="boring">use glib::subclass::InitializingObject;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, CompositeTemplate, Entry, ListView};
 </span><span class="boring">
@@ -811,7 +809,7 @@ Then we store a reference to the model in <code>imp::Window</code> as well as in
         self.imp().tasks.replace(Some(model));
 
         // Wrap model with selection and pass it to the list view
-        let selection_model = NoSelection::new(Some(&amp;self.tasks()));
+        let selection_model = NoSelection::new(Some(self.tasks()));
         self.imp().tasks_list.set_model(Some(&amp;selection_model));
     }
 <span class="boring">
@@ -834,7 +832,7 @@ Then we store a reference to the model in <code>imp::Window</code> as well as in
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -942,7 +940,7 @@ Finally, the entry will be cleared.</p>
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with selection and pass it to the list view
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;self.tasks()));
+</span><span class="boring">        let selection_model = NoSelection::new(Some(self.tasks()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">    }
 </span><span class="boring">
@@ -965,7 +963,7 @@ Finally, the entry will be cleared.</p>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -1079,7 +1077,7 @@ We will need to unbind them manually when they are no longer needed.</p>
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with selection and pass it to the list view
-</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;self.tasks()));
+</span><span class="boring">        let selection_model = NoSelection::new(Some(self.tasks()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">    }
 </span><span class="boring">
@@ -1102,7 +1100,7 @@ We will need to unbind them manually when they are no longer needed.</p>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text();
+</span><span class="boring">        let content = buffer.text().to_string();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -1380,5 +1378,6 @@ We will extend it with additional functionality in the following chapters.</p>
         <!-- Custom JS scripts -->
 
 
+    </div>
     </body>
 </html>

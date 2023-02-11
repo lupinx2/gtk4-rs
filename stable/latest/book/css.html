@@ -33,6 +33,7 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "";
@@ -185,7 +186,7 @@ fn main() {
 fn load_css() {
     // Load the CSS file and add it to the provider
     let provider = CssProvider::new();
-    provider.load_from_data(include_bytes!(&quot;style.css&quot;));
+    provider.load_from_data(include_str!(&quot;style.css&quot;));
 
     // Add the provider to the default screen
     StyleContext::add_provider_for_display(
@@ -268,7 +269,7 @@ Which is why we add the style class <code>button-1</code> to the first one.</p>
 </span><span class="boring">fn load_css() {
 </span><span class="boring">    // Load the CSS file and add it to the provider
 </span><span class="boring">    let provider = CssProvider::new();
-</span><span class="boring">    provider.load_from_data(include_bytes!(&quot;style.css&quot;));
+</span><span class="boring">    provider.load_from_data(include_str!(&quot;style.css&quot;));
 </span><span class="boring">
 </span><span class="boring">    // Add the provider to the default screen
 </span><span class="boring">    StyleContext::add_provider_for_display(
@@ -340,7 +341,7 @@ We set the name of the first one with <a href="../docs/gtk4/prelude/trait.Widget
 </span><span class="boring">fn load_css() {
 </span><span class="boring">    // Load the CSS file and add it to the provider
 </span><span class="boring">    let provider = CssProvider::new();
-</span><span class="boring">    provider.load_from_data(include_bytes!(&quot;style.css&quot;));
+</span><span class="boring">    provider.load_from_data(include_str!(&quot;style.css&quot;));
 </span><span class="boring">
 </span><span class="boring">    // Add the provider to the default screen
 </span><span class="boring">    StyleContext::add_provider_for_display(
@@ -562,7 +563,6 @@ In our case, the widget <code>TaskRow</code> then corresponds to the node <code>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">
 </span><span class="boring">use glib::Binding;
-</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{glib, CheckButton, CompositeTemplate, Label};
 </span><span class="boring">
@@ -693,5 +693,6 @@ You can find the full list of supported parameters in GTK's <a href="https://doc
         <!-- Custom JS scripts -->
 
 
+    </div>
     </body>
 </html>
