@@ -154,11 +154,13 @@
 Each label will display an integer starting from 0 and ranging up to 100.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/1/main.rs">listings/list_widgets/1/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::prelude::*;
-</span><span class="boring">use gtk::{Application, ApplicationWindow, Label, ListBox, PolicyType, ScrolledWindow};
+</span><span class="boring">use gtk::{
+</span><span class="boring">    glib, Application, ApplicationWindow, Label, ListBox, PolicyType, ScrolledWindow,
+</span><span class="boring">};
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets1&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -166,7 +168,7 @@ Each label will display an integer starting from 0 and ranging up to 100.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -200,11 +202,13 @@ Therefore, we add <code>ListBox</code> to a <a href="../docs/gtk4/struct.Scrolle
 Now we can scroll through our elements.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/1/main.rs">listings/list_widgets/1/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::prelude::*;
-</span><span class="boring">use gtk::{Application, ApplicationWindow, Label, ListBox, PolicyType, ScrolledWindow};
+</span><span class="boring">use gtk::{
+</span><span class="boring">    glib, Application, ApplicationWindow, Label, ListBox, PolicyType, ScrolledWindow,
+</span><span class="boring">};
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets1&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -212,7 +216,7 @@ Now we can scroll through our elements.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -336,15 +340,15 @@ Neither <code>Label</code> nor any other widget is mentioned here.</p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, Application, ApplicationWindow, Label, ListView, PolicyType, ScrolledWindow,
-</span><span class="boring">    SignalListItemFactory, SingleSelection,
+</span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
+</span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection,
 </span><span class="boring">};
 </span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets2&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -352,7 +356,7 @@ Neither <code>Label</code> nor any other widget is mentioned here.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -428,15 +432,15 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, Application, ApplicationWindow, Label, ListView, PolicyType, ScrolledWindow,
-</span><span class="boring">    SignalListItemFactory, SingleSelection,
+</span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
+</span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection,
 </span><span class="boring">};
 </span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets2&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -444,7 +448,7 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -517,15 +521,15 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, Application, ApplicationWindow, Label, ListView, PolicyType, ScrolledWindow,
-</span><span class="boring">    SignalListItemFactory, SingleSelection,
+</span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
+</span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection,
 </span><span class="boring">};
 </span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets2&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -533,7 +537,7 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -608,15 +612,15 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, Application, ApplicationWindow, Label, ListView, PolicyType, ScrolledWindow,
-</span><span class="boring">    SignalListItemFactory, SingleSelection,
+</span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
+</span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection,
 </span><span class="boring">};
 </span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets2&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -624,7 +628,7 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -697,15 +701,15 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, Application, ApplicationWindow, Label, ListView, PolicyType, ScrolledWindow,
-</span><span class="boring">    SignalListItemFactory, SingleSelection,
+</span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
+</span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection,
 </span><span class="boring">};
 </span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets2&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -713,7 +717,7 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -821,7 +825,7 @@ For that we first add the method <code>increase_number</code> to our <code>Integ
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets3&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -829,7 +833,7 @@ For that we first add the method <code>increase_number</code> to our <code>Integ
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -926,7 +930,7 @@ One naive approach would be to bind the properties in the &quot;bind&quot; step 
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets3&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -934,7 +938,7 @@ One naive approach would be to bind the properties in the &quot;bind&quot; step 
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -1028,15 +1032,15 @@ Let's see how the &quot;setup&quot; step now works.</p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, Application, ApplicationWindow, Label, ListView, PolicyType, ScrolledWindow,
-</span><span class="boring">    SignalListItemFactory, SingleSelection, Widget,
+</span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
+</span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection, Widget,
 </span><span class="boring">};
 </span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets4&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -1044,7 +1048,7 @@ Let's see how the &quot;setup&quot; step now works.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -1123,8 +1127,8 @@ We do that by passing it to a <a href="../docs/gtk4/struct.FilterListModel.html"
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, Application, ApplicationWindow, CustomFilter, CustomSorter, FilterChange,
-</span><span class="boring">    FilterListModel, Label, ListView, PolicyType, ScrolledWindow,
+</span><span class="boring">    gio, glib, Application, ApplicationWindow, CustomFilter, CustomSorter,
+</span><span class="boring">    FilterChange, FilterListModel, Label, ListView, PolicyType, ScrolledWindow,
 </span><span class="boring">    SignalListItemFactory, SingleSelection, SortListModel, SorterChange, Widget,
 </span><span class="boring">};
 </span><span class="boring">use gtk::{prelude::*, ListItem};
@@ -1132,7 +1136,7 @@ We do that by passing it to a <a href="../docs/gtk4/struct.FilterListModel.html"
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets5&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -1140,7 +1144,7 @@ We do that by passing it to a <a href="../docs/gtk4/struct.FilterListModel.html"
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -1245,8 +1249,8 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, Application, ApplicationWindow, CustomFilter, CustomSorter, FilterChange,
-</span><span class="boring">    FilterListModel, Label, ListView, PolicyType, ScrolledWindow,
+</span><span class="boring">    gio, glib, Application, ApplicationWindow, CustomFilter, CustomSorter,
+</span><span class="boring">    FilterChange, FilterListModel, Label, ListView, PolicyType, ScrolledWindow,
 </span><span class="boring">    SignalListItemFactory, SingleSelection, SortListModel, SorterChange, Widget,
 </span><span class="boring">};
 </span><span class="boring">use gtk::{prelude::*, ListItem};
@@ -1254,7 +1258,7 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets5&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -1262,7 +1266,7 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -1366,8 +1370,8 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, Application, ApplicationWindow, CustomFilter, CustomSorter, FilterChange,
-</span><span class="boring">    FilterListModel, Label, ListView, PolicyType, ScrolledWindow,
+</span><span class="boring">    gio, glib, Application, ApplicationWindow, CustomFilter, CustomSorter,
+</span><span class="boring">    FilterChange, FilterListModel, Label, ListView, PolicyType, ScrolledWindow,
 </span><span class="boring">    SignalListItemFactory, SingleSelection, SortListModel, SorterChange, Widget,
 </span><span class="boring">};
 </span><span class="boring">use gtk::{prelude::*, ListItem};
@@ -1375,7 +1379,7 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets5&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -1383,7 +1387,7 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -1493,7 +1497,7 @@ Filter and sorter is controlled by the factory, so nothing changes here.
 This is why we will skip this topic here.</p>
 <p>First, we add a bunch of strings to our model.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/6/main.rs">listings/list_widgets/6/main.rs</a></p>
-<pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::{prelude::*, ListItem};
+<pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::{glib, prelude::*, ListItem};
 </span><span class="boring">use gtk::{
 </span><span class="boring">    Application, ApplicationWindow, Label, ListView, NoSelection, PolicyType,
 </span><span class="boring">    ScrolledWindow, SignalListItemFactory, StringList, StringObject, Widget,
@@ -1501,7 +1505,7 @@ This is why we will skip this topic here.</p>
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets6&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -1509,7 +1513,7 @@ This is why we will skip this topic here.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -1562,7 +1566,7 @@ This means we don't have to create a custom GObject for our model anymore.</p>
 <p>As usual, we connect the label to the list item via an expression.
 Here we can use <a href="../docs/gtk4/struct.StringObject.html"><code>StringObject</code></a>, which exposes its content via the <a href="https://docs.gtk.org/gtk4/property.StringObject.string.html">property &quot;string&quot;</a>.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/6/main.rs">listings/list_widgets/6/main.rs</a></p>
-<pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::{prelude::*, ListItem};
+<pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::{glib, prelude::*, ListItem};
 </span><span class="boring">use gtk::{
 </span><span class="boring">    Application, ApplicationWindow, Label, ListView, NoSelection, PolicyType,
 </span><span class="boring">    ScrolledWindow, SignalListItemFactory, StringList, StringObject, Widget,
@@ -1570,7 +1574,7 @@ Here we can use <a href="../docs/gtk4/struct.StringObject.html"><code>StringObje
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets6&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() {
+</span><span class="boring">fn main() -&gt; glib::ExitCode {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -1578,7 +1582,7 @@ Here we can use <a href="../docs/gtk4/struct.StringObject.html"><code>StringObje
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run();
+</span><span class="boring">    app.run()
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {

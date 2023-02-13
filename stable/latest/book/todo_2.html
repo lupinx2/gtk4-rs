@@ -1344,12 +1344,12 @@ Since this has to be done at the application level, <code>setup_shortcuts</code>
 </span><span class="boring">mod window;
 </span><span class="boring">
 </span><span class="boring">use gtk::prelude::*;
-</span><span class="boring">use gtk::{gio, Application};
+</span><span class="boring">use gtk::{gio, glib, Application};
 </span><span class="boring">use window::Window;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.Todo2&quot;;
 </span><span class="boring">
-</span>fn main() {
+</span>fn main() -&gt; glib::ExitCode {
     // Register and include resources
     gio::resources_register_include!(&quot;todo_2.gresource&quot;)
         .expect(&quot;Failed to register resources.&quot;);
@@ -1362,7 +1362,7 @@ Since this has to be done at the application level, <code>setup_shortcuts</code>
     app.connect_activate(build_ui);
 
     // Run the application
-    app.run();
+    app.run()
 }
 
 fn setup_shortcuts(app: &amp;Application) {

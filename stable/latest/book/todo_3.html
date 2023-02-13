@@ -156,13 +156,13 @@ Let's start by installing Libadwaita and adding the <code>libadwaita</code> crat
 </span><span class="boring">mod utils;
 </span><span class="boring">mod window;
 </span><span class="boring">
-</span><span class="boring">use gtk::gio;
 </span><span class="boring">use gtk::prelude::*;
+</span><span class="boring">use gtk::{gio, glib};
 </span><span class="boring">use window::Window;
 </span><span class="boring">
 </span><span class="boring">static APP_ID: &amp;str = &quot;org.gtk_rs.Todo5&quot;;
 </span><span class="boring">
-</span>fn main() {
+</span>fn main() -&gt; glib::ExitCode {
     gio::resources_register_include!(&quot;todo_5.gresource&quot;)
         .expect(&quot;Failed to register resources.&quot;);
 
@@ -175,7 +175,7 @@ Let's start by installing Libadwaita and adding the <code>libadwaita</code> crat
     app.connect_activate(build_ui);
 
     // Run the application
-    app.run();
+    app.run()
 }
 
 //                       👇 changed
