@@ -671,7 +671,7 @@
     #[cfg_attr(feature = <span class="string">&quot;dox&quot;</span>, doc(cfg(feature = <span class="string">&quot;v4_10&quot;</span>)))]
     #[doc(alias = <span class="string">&quot;gtk_accessible_get_platform_state&quot;</span>)]
     #[doc(alias = <span class="string">&quot;get_platform_state&quot;</span>)]
-    </span><span class="kw">fn </span>is_platform_state(<span class="kw-2">&amp;</span><span class="self">self</span>, state: AccessiblePlatformState) -&gt; bool;
+    </span><span class="kw">fn </span>platform_state(<span class="kw-2">&amp;</span><span class="self">self</span>, state: AccessiblePlatformState) -&gt; bool;
 
     <span class="doccomment">/// Resets the accessible @property to its default value.
     /// ## `property`
@@ -812,7 +812,7 @@
 
     <span class="attr">#[cfg(any(feature = <span class="string">&quot;v4_10&quot;</span>, feature = <span class="string">&quot;dox&quot;</span>))]
     #[cfg_attr(feature = <span class="string">&quot;dox&quot;</span>, doc(cfg(feature = <span class="string">&quot;v4_10&quot;</span>)))]
-    </span><span class="kw">fn </span>is_platform_state(<span class="kw-2">&amp;</span><span class="self">self</span>, state: AccessiblePlatformState) -&gt; bool {
+    </span><span class="kw">fn </span>platform_state(<span class="kw-2">&amp;</span><span class="self">self</span>, state: AccessiblePlatformState) -&gt; bool {
         <span class="kw">unsafe </span>{
             from_glib(ffi::gtk_accessible_get_platform_state(
                 <span class="self">self</span>.as_ref().to_glib_none().<span class="number">0</span>,
@@ -908,4 +908,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gtk4" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="gtk4" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (5243ea5c2 2023-02-20)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
