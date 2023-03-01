@@ -292,7 +292,7 @@ of the mark’s initial placement.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="tymethod.add_selection_clipboard" class="method"><a class="srclink rightside" href="../../src/gtk4/auto/text_buffer.rs.html#377">source</a><h4 class="code-header">fn <a href="#tymethod.add_selection_clipboard" class="fn">add_selection_clipboard</a>(&amp;self, clipboard: &amp;<a class="struct" href="../../gdk4/auto/clipboard/struct.Clipboard.html" title="struct gdk4::auto::clipboard::Clipboard">Clipboard</a>)</h4></section></summary><div class="docblock"><p>Adds @clipboard to the list of clipboards in which the selection
 contents of @self are available.</p>
 <p>In most cases, @clipboard will be the <a href="../../gdk4/auto/clipboard/struct.Clipboard.html" title="struct gdk4::auto::clipboard::Clipboard"><code>gdk::Clipboard</code></a> returned by
-<a href="trait.WidgetExt.html#tymethod.primary_clipboard" title="associated function gtk4::prelude::WidgetExt::primary_clipboard"><code>WidgetExt::primary_clipboard()</code></a> for a view of @self.</p>
+<a href="trait.WidgetExt.html#tymethod.primary_clipboard" title="method gtk4::prelude::WidgetExt::primary_clipboard"><code>WidgetExt::primary_clipboard()</code></a> for a view of @self.</p>
 <h6 id="clipboard"><a href="#clipboard"><code>clipboard</code></a></h6>
 <p>a <a href="../../gdk4/auto/clipboard/struct.Clipboard.html" title="struct gdk4::auto::clipboard::Clipboard"><code>gdk::Clipboard</code></a></p>
 </div></details><details class="toggle method-toggle" open><summary><section id="tymethod.apply_tag" class="method"><a class="srclink rightside" href="../../src/gtk4/auto/text_buffer.rs.html#391">source</a><h4 class="code-header">fn <a href="#tymethod.apply_tag" class="fn">apply_tag</a>(&amp;self, tag: &amp;impl <a class="trait" href="https://gtk-rs.org/gtk-rs-core/git/docs/glib/object/trait.IsA.html" title="trait glib::object::IsA">IsA</a>&lt;<a class="struct" href="../struct.TextTag.html" title="struct gtk4::TextTag">TextTag</a>&gt;, start: &amp;<a class="struct" href="../struct.TextIter.html" title="struct gtk4::TextIter">TextIter</a>, end: &amp;<a class="struct" href="../struct.TextIter.html" title="struct gtk4::TextIter">TextIter</a>)</h4></section></summary><div class="docblock"><p>Emits the “apply-tag” signal on @self.</p>
@@ -306,7 +306,7 @@ not have to be in order.</p>
 <h6 id="end"><a href="#end"><code>end</code></a></h6>
 <p>other bound of range to be tagged</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="tymethod.apply_tag_by_name" class="method"><a class="srclink rightside" href="../../src/gtk4/auto/text_buffer.rs.html#405">source</a><h4 class="code-header">fn <a href="#tymethod.apply_tag_by_name" class="fn">apply_tag_by_name</a>(&amp;self, name: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, start: &amp;<a class="struct" href="../struct.TextIter.html" title="struct gtk4::TextIter">TextIter</a>, end: &amp;<a class="struct" href="../struct.TextIter.html" title="struct gtk4::TextIter">TextIter</a>)</h4></section></summary><div class="docblock"><p>Emits the “apply-tag” signal on @self.</p>
-<p>Calls <a href="../struct.TextTagTable.html#method.lookup" title="associated function gtk4::TextTagTable::lookup"><code>TextTagTable::lookup()</code></a> on the buffer’s
+<p>Calls <a href="../struct.TextTagTable.html#method.lookup" title="method gtk4::TextTagTable::lookup"><code>TextTagTable::lookup()</code></a> on the buffer’s
 tag table to get a <a href="../struct.TextTag.html" title="struct gtk4::TextTag"><code>TextTag</code></a>, then calls
 <a href="trait.TextBufferExt.html#tymethod.apply_tag"><code>apply_tag()</code></a>.</p>
 <h6 id="name"><a href="#name"><code>name</code></a></h6>
@@ -445,7 +445,7 @@ buffer.</p>
 you haven’t called g_object_ref() on the mark, it will be freed.
 Even if the mark isn’t freed, most operations on @mark become
 invalid, until it gets added to a buffer again with
-<a href="trait.TextBufferExt.html#tymethod.add_mark"><code>add_mark()</code></a>. Use <a href="trait.TextMarkExt.html#tymethod.is_deleted" title="associated function gtk4::prelude::TextMarkExt::is_deleted"><code>TextMarkExt::is_deleted()</code></a>
+<a href="trait.TextBufferExt.html#tymethod.add_mark"><code>add_mark()</code></a>. Use <a href="trait.TextMarkExt.html#tymethod.is_deleted" title="method gtk4::prelude::TextMarkExt::is_deleted"><code>TextMarkExt::is_deleted()</code></a>
 to find out if a mark has been removed from its buffer.</p>
 <p>The <a href="../struct.TextBuffer.html#mark-deleted" title="struct gtk4::TextBuffer"><code>mark-deleted</code></a> signal will be emitted as
 notification after the mark is deleted.</p>
@@ -505,7 +505,7 @@ changes to the buffer that cannot be undone.</p>
 <p><a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html" title="primitive std::bool"><code>true</code></a> if undoing and redoing changes to the buffer is allowed.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="tymethod.end_iter" class="method"><a class="srclink rightside" href="../../src/gtk4/auto/text_buffer.rs.html#717">source</a><h4 class="code-header">fn <a href="#tymethod.end_iter" class="fn">end_iter</a>(&amp;self) -&gt; <a class="struct" href="../struct.TextIter.html" title="struct gtk4::TextIter">TextIter</a></h4></section></summary><div class="docblock"><p>Initializes @iter with the “end iterator,” one past the last valid
 character in the text buffer.</p>
-<p>If dereferenced with <a href="../struct.TextIter.html#method.char" title="associated function gtk4::TextIter::char"><code>TextIter::char()</code></a>, the end
+<p>If dereferenced with <a href="../struct.TextIter.html#method.char" title="method gtk4::TextIter::char"><code>TextIter::char()</code></a>, the end
 iterator has a character value of 0.
 The entire buffer lies in the range from the first position in
 the buffer (call <a href="trait.TextBufferExt.html#tymethod.start_iter"><code>start_iter()</code></a> to get
@@ -633,7 +633,7 @@ return value still indicates whether text is selected.</p>
 <p>iterator to initialize with selection end</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="tymethod.selection_content" class="method"><a class="srclink rightside" href="../../src/gtk4/auto/text_buffer.rs.html#947">source</a><h4 class="code-header">fn <a href="#tymethod.selection_content" class="fn">selection_content</a>(&amp;self) -&gt; <a class="struct" href="../../gdk4/auto/content_provider/struct.ContentProvider.html" title="struct gdk4::auto::content_provider::ContentProvider">ContentProvider</a></h4></section></summary><div class="docblock"><p>Get a content provider for this buffer.</p>
 <p>It can be used to make the content of @self available
-in a <a href="../../gdk4/auto/clipboard/struct.Clipboard.html" title="struct gdk4::auto::clipboard::Clipboard"><code>gdk::Clipboard</code></a>, see <a href="../../gdk4/auto/clipboard/struct.Clipboard.html#method.set_content" title="associated function gdk4::auto::clipboard::Clipboard::set_content"><code>Clipboard::set_content()</code></a>.</p>
+in a <a href="../../gdk4/auto/clipboard/struct.Clipboard.html" title="struct gdk4::auto::clipboard::Clipboard"><code>gdk::Clipboard</code></a>, see <a href="../../gdk4/auto/clipboard/struct.Clipboard.html#method.set_content" title="method gdk4::auto::clipboard::Clipboard::set_content"><code>Clipboard::set_content()</code></a>.</p>
 <h5 id="returns-25"><a href="#returns-25">Returns</a></h5>
 <p>a new <a href="../../gdk4/auto/content_provider/struct.ContentProvider.html" title="struct gdk4::auto::content_provider::ContentProvider"><code>gdk::ContentProvider</code></a>.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="tymethod.slice" class="method"><a class="srclink rightside" href="../../src/gtk4/auto/text_buffer.rs.html#971">source</a><h4 class="code-header">fn <a href="#tymethod.slice" class="fn">slice</a>(
@@ -737,7 +737,7 @@ want to prevent insertions at ineditable locations if the insertion
 results from a user action (is interactive).</p>
 <p>@default_editable indicates the editability of text that doesn’t
 have a tag affecting editability applied to it. Typically the
-result of <a href="trait.TextViewExt.html#tymethod.is_editable" title="associated function gtk4::prelude::TextViewExt::is_editable"><code>TextViewExt::is_editable()</code></a> is appropriate here.</p>
+result of <a href="trait.TextViewExt.html#tymethod.is_editable" title="method gtk4::prelude::TextViewExt::is_editable"><code>TextViewExt::is_editable()</code></a> is appropriate here.</p>
 <h6 id="iter-12"><a href="#iter-12"><code>iter</code></a></h6>
 <p>a position in @self</p>
 <h6 id="text-2"><a href="#text-2"><code>text</code></a></h6>
@@ -753,7 +753,7 @@ result of <a href="trait.TextViewExt.html#tymethod.is_editable" title="associate
 at the cursor position.</p>
 <p>@default_editable indicates the editability of text that doesn’t
 have a tag affecting editability applied to it. Typically the
-result of <a href="trait.TextViewExt.html#tymethod.is_editable" title="associated function gtk4::prelude::TextViewExt::is_editable"><code>TextViewExt::is_editable()</code></a> is appropriate here.</p>
+result of <a href="trait.TextViewExt.html#tymethod.is_editable" title="method gtk4::prelude::TextViewExt::is_editable"><code>TextViewExt::is_editable()</code></a> is appropriate here.</p>
 <h6 id="text-3"><a href="#text-3"><code>text</code></a></h6>
 <p>text in UTF-8 format</p>
 <h6 id="len-3"><a href="#len-3"><code>len</code></a></h6>
@@ -811,7 +811,7 @@ and inserts the copy at @iter.</p>
 if the insertion point isn’t editable. The @default_editable
 parameter indicates whether the text is editable at @iter if
 no tags enclosing @iter affect editability. Typically the result
-of <a href="trait.TextViewExt.html#tymethod.is_editable" title="associated function gtk4::prelude::TextViewExt::is_editable"><code>TextViewExt::is_editable()</code></a> is appropriate here.</p>
+of <a href="trait.TextViewExt.html#tymethod.is_editable" title="method gtk4::prelude::TextViewExt::is_editable"><code>TextViewExt::is_editable()</code></a> is appropriate here.</p>
 <h6 id="iter-16"><a href="#iter-16"><code>iter</code></a></h6>
 <p>a position in @self</p>
 <h6 id="start-8"><a href="#start-8"><code>start</code></a></h6>
@@ -889,7 +889,7 @@ to be in order.</p>
 <h6 id="end-10"><a href="#end-10"><code>end</code></a></h6>
 <p>other bound of range to be untagged</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="tymethod.remove_tag_by_name" class="method"><a class="srclink rightside" href="../../src/gtk4/auto/text_buffer.rs.html#1301">source</a><h4 class="code-header">fn <a href="#tymethod.remove_tag_by_name" class="fn">remove_tag_by_name</a>(&amp;self, name: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, start: &amp;<a class="struct" href="../struct.TextIter.html" title="struct gtk4::TextIter">TextIter</a>, end: &amp;<a class="struct" href="../struct.TextIter.html" title="struct gtk4::TextIter">TextIter</a>)</h4></section></summary><div class="docblock"><p>Emits the “remove-tag” signal.</p>
-<p>Calls <a href="../struct.TextTagTable.html#method.lookup" title="associated function gtk4::TextTagTable::lookup"><code>TextTagTable::lookup()</code></a> on the buffer’s
+<p>Calls <a href="../struct.TextTagTable.html#method.lookup" title="method gtk4::TextTagTable::lookup"><code>TextTagTable::lookup()</code></a> on the buffer’s
 tag table to get a <a href="../struct.TextTag.html" title="struct gtk4::TextTag"><code>TextTag</code></a>, then calls
 <a href="trait.TextBufferExt.html#tymethod.remove_tag"><code>remove_tag()</code></a>.</p>
 <h6 id="name-4"><a href="#name-4"><code>name</code></a></h6>
@@ -960,7 +960,7 @@ it must not invalidate the @start and @end iters (or has to
 revalidate them).</p>
 <p>See also:
 <a href="trait.TextBufferExt.html#tymethod.apply_tag"><code>apply_tag()</code></a>,
-<a href="trait.TextBufferExtManual.html#tymethod.insert_with_tags" title="associated function gtk4::prelude::TextBufferExtManual::insert_with_tags"><code>TextBufferExtManual::insert_with_tags()</code></a>,
+<a href="trait.TextBufferExtManual.html#tymethod.insert_with_tags" title="method gtk4::prelude::TextBufferExtManual::insert_with_tags"><code>TextBufferExtManual::insert_with_tags()</code></a>,
 <a href="trait.TextBufferExt.html#tymethod.insert_range"><code>insert_range()</code></a>.</p>
 <h6 id="tag-2"><a href="#tag-2"><code>tag</code></a></h6>
 <p>the applied tag</p>
@@ -1106,4 +1106,4 @@ been grouped together.</p>
 ) -&gt; <a class="struct" href="https://gtk-rs.org/gtk-rs-core/git/docs/glib/signal/struct.SignalHandlerId.html" title="struct glib::signal::SignalHandlerId">SignalHandlerId</a></h4></section><section id="tymethod.connect_has_selection_notify" class="method"><a class="srclink rightside" href="../../src/gtk4/auto/text_buffer.rs.html#1585">source</a><h4 class="code-header">fn <a href="#tymethod.connect_has_selection_notify" class="fn">connect_has_selection_notify</a>&lt;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.Fn.html" title="trait core::ops::function::Fn">Fn</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;Self</a>) + 'static&gt;(
     &amp;self,
     f: F
-) -&gt; <a class="struct" href="https://gtk-rs.org/gtk-rs-core/git/docs/glib/signal/struct.SignalHandlerId.html" title="struct glib::signal::SignalHandlerId">SignalHandlerId</a></h4></section><section id="tymethod.connect_text_notify" class="method"><a class="srclink rightside" href="../../src/gtk4/auto/text_buffer.rs.html#1588">source</a><h4 class="code-header">fn <a href="#tymethod.connect_text_notify" class="fn">connect_text_notify</a>&lt;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.Fn.html" title="trait core::ops::function::Fn">Fn</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;Self</a>) + 'static&gt;(&amp;self, f: F) -&gt; <a class="struct" href="https://gtk-rs.org/gtk-rs-core/git/docs/glib/signal/struct.SignalHandlerId.html" title="struct glib::signal::SignalHandlerId">SignalHandlerId</a></h4></section></div><h2 id="implementors" class="small-section-header">Implementors<a href="#implementors" class="anchor">§</a></h2><div id="implementors-list"><section id="impl-TextBufferExt-for-O" class="impl"><a class="srclink rightside" href="../../src/gtk4/auto/text_buffer.rs.html#1591-2805">source</a><a href="#impl-TextBufferExt-for-O" class="anchor">§</a><h3 class="code-header">impl&lt;O: <a class="trait" href="https://gtk-rs.org/gtk-rs-core/git/docs/glib/object/trait.IsA.html" title="trait glib::object::IsA">IsA</a>&lt;<a class="struct" href="../struct.TextBuffer.html" title="struct gtk4::TextBuffer">TextBuffer</a>&gt;&gt; <a class="trait" href="trait.TextBufferExt.html" title="trait gtk4::prelude::TextBufferExt">TextBufferExt</a> for O</h3></section></div><script src="../../implementors/gtk4/auto/text_buffer/trait.TextBufferExt.js" async></script></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="gtk4" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (246eae2fa 2023-02-21)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+) -&gt; <a class="struct" href="https://gtk-rs.org/gtk-rs-core/git/docs/glib/signal/struct.SignalHandlerId.html" title="struct glib::signal::SignalHandlerId">SignalHandlerId</a></h4></section><section id="tymethod.connect_text_notify" class="method"><a class="srclink rightside" href="../../src/gtk4/auto/text_buffer.rs.html#1588">source</a><h4 class="code-header">fn <a href="#tymethod.connect_text_notify" class="fn">connect_text_notify</a>&lt;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.Fn.html" title="trait core::ops::function::Fn">Fn</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;Self</a>) + 'static&gt;(&amp;self, f: F) -&gt; <a class="struct" href="https://gtk-rs.org/gtk-rs-core/git/docs/glib/signal/struct.SignalHandlerId.html" title="struct glib::signal::SignalHandlerId">SignalHandlerId</a></h4></section></div><h2 id="implementors" class="small-section-header">Implementors<a href="#implementors" class="anchor">§</a></h2><div id="implementors-list"><section id="impl-TextBufferExt-for-O" class="impl"><a class="srclink rightside" href="../../src/gtk4/auto/text_buffer.rs.html#1591-2805">source</a><a href="#impl-TextBufferExt-for-O" class="anchor">§</a><h3 class="code-header">impl&lt;O: <a class="trait" href="https://gtk-rs.org/gtk-rs-core/git/docs/glib/object/trait.IsA.html" title="trait glib::object::IsA">IsA</a>&lt;<a class="struct" href="../struct.TextBuffer.html" title="struct gtk4::TextBuffer">TextBuffer</a>&gt;&gt; <a class="trait" href="trait.TextBufferExt.html" title="trait gtk4::prelude::TextBufferExt">TextBufferExt</a> for O</h3></section></div><script src="../../implementors/gtk4/auto/text_buffer/trait.TextBufferExt.js" async></script></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="gtk4" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (31f858d9a 2023-02-28)" data-search-js="search-d5a6cd8418084717.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
