@@ -633,13 +633,13 @@ Probably better to revert this immediately again.</p>
 Until now the different tasks weren't nicely separated.
 We can change that by adding the <code>frame</code> and the <code>separators</code> style class to our <code>tasks_list</code>.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/todo/4/resources/task_row.ui">listings/todo/4/resources/window.ui</a></p>
-<pre><code class="language-xml">&lt;object class=&quot;GtkListView&quot; id=&quot;tasks_list&quot;&gt;
-  &lt;property name=&quot;valign&quot;&gt;start&lt;/property&gt;
-  &lt;style&gt;
-    &lt;class name=&quot;frame&quot;/&gt;
-    &lt;class name=&quot;separators&quot;/&gt;
-  &lt;/style&gt;
-&lt;/object&gt;
+<pre><code class="language-diff"> &lt;object class=&quot;GtkListView&quot; id=&quot;tasks_list&quot;&gt;
+   &lt;property name=&quot;valign&quot;&gt;start&lt;/property&gt;
++  &lt;style&gt;
++    &lt;class name=&quot;frame&quot;/&gt;
++    &lt;class name=&quot;separators&quot;/&gt;
++  &lt;/style&gt;
+ &lt;/object&gt;
 </code></pre>
 <div style="text-align:center"><img src="img/todo_4.png" alt="To-Do app with borders for its task widget"/></div>
 <h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
