@@ -13491,7 +13491,7 @@ pub struct Window {
 </span><span class="boring">            .build();
 </span><span class="boring">        dialog.content_area().append(&amp;entry);
 </span><span class="boring">
-</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is not text in it
+</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is no text in it
 </span><span class="boring">        entry.connect_changed(clone!(@weak dialog =&gt; move |entry| {
 </span><span class="boring">            let text = entry.text();
 </span><span class="boring">            let dialog_button = dialog.
@@ -14167,7 +14167,7 @@ To do that it uses the method <code>create_collection_row</code>.</p>
 </span><span class="boring">            .build();
 </span><span class="boring">        dialog.content_area().append(&amp;entry);
 </span><span class="boring">
-</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is not text in it
+</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is no text in it
 </span><span class="boring">        entry.connect_changed(clone!(@weak dialog =&gt; move |entry| {
 </span><span class="boring">            let text = entry.text();
 </span><span class="boring">            let dialog_button = dialog.
@@ -14624,7 +14624,7 @@ To do that it uses the method <code>create_collection_row</code>.</p>
 </span><span class="boring">            .build();
 </span><span class="boring">        dialog.content_area().append(&amp;entry);
 </span><span class="boring">
-</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is not text in it
+</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is no text in it
 </span><span class="boring">        entry.connect_changed(clone!(@weak dialog =&gt; move |entry| {
 </span><span class="boring">            let text = entry.text();
 </span><span class="boring">            let dialog_button = dialog.
@@ -15084,7 +15084,7 @@ We choose the first one and let the method <code>set_current_collection</code> d
 </span><span class="boring">            .build();
 </span><span class="boring">        dialog.content_area().append(&amp;entry);
 </span><span class="boring">
-</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is not text in it
+</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is no text in it
 </span><span class="boring">        entry.connect_changed(clone!(@weak dialog =&gt; move |entry| {
 </span><span class="boring">            let text = entry.text();
 </span><span class="boring">            let dialog_button = dialog.
@@ -15547,7 +15547,7 @@ Finally, we select the collection row.</p>
 </span><span class="boring">            .build();
 </span><span class="boring">        dialog.content_area().append(&amp;entry);
 </span><span class="boring">
-</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is not text in it
+</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is no text in it
 </span><span class="boring">        entry.connect_changed(clone!(@weak dialog =&gt; move |entry| {
 </span><span class="boring">            let text = entry.text();
 </span><span class="boring">            let dialog_button = dialog.
@@ -16005,7 +16005,7 @@ It assures that <code>tasks_list</code> is only visible if the number of tasks i
 </span><span class="boring">            .build();
 </span><span class="boring">        dialog.content_area().append(&amp;entry);
 </span><span class="boring">
-</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is not text in it
+</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is no text in it
 </span><span class="boring">        entry.connect_changed(clone!(@weak dialog =&gt; move |entry| {
 </span><span class="boring">            let text = entry.text();
 </span><span class="boring">            let dialog_button = dialog.
@@ -16462,7 +16462,7 @@ It assures that <code>tasks_list</code> is only visible if the number of tasks i
 </span><span class="boring">            .build();
 </span><span class="boring">        dialog.content_area().append(&amp;entry);
 </span><span class="boring">
-</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is not text in it
+</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is no text in it
 </span><span class="boring">        entry.connect_changed(clone!(@weak dialog =&gt; move |entry| {
 </span><span class="boring">            let text = entry.text();
 </span><span class="boring">            let dialog_button = dialog.
@@ -16936,7 +16936,7 @@ This action will be activated by a click on the <code>+</code> button as well as
 </span><span class="boring">            .build();
 </span><span class="boring">        dialog.content_area().append(&amp;entry);
 </span><span class="boring">
-</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is not text in it
+</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is no text in it
 </span><span class="boring">        entry.connect_changed(clone!(@weak dialog =&gt; move |entry| {
 </span><span class="boring">            let text = entry.text();
 </span><span class="boring">            let dialog_button = dialog.
@@ -17399,7 +17399,7 @@ Afterwards we navigate forward on our leaflet, which means we navigate to the ta
             .build();
         dialog.content_area().append(&amp;entry);
 
-        // Set entry's css class to &quot;error&quot;, when there is not text in it
+        // Set entry's css class to &quot;error&quot;, when there is no text in it
         entry.connect_changed(clone!(@weak dialog =&gt; move |entry| {
             let text = entry.text();
             let dialog_button = dialog.
@@ -17862,7 +17862,7 @@ Finally, we connect to a click of the <code>back_button</code> in the task view 
 </span><span class="boring">            .build();
 </span><span class="boring">        dialog.content_area().append(&amp;entry);
 </span><span class="boring">
-</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is not text in it
+</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is no text in it
 </span><span class="boring">        entry.connect_changed(clone!(@weak dialog =&gt; move |entry| {
 </span><span class="boring">            let text = entry.text();
 </span><span class="boring">            let dialog_button = dialog.
@@ -18320,7 +18320,7 @@ This method ensure when there is at least one collection, the &quot;main&quot; p
 </span><span class="boring">            .build();
 </span><span class="boring">        dialog.content_area().append(&amp;entry);
 </span><span class="boring">
-</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is not text in it
+</span><span class="boring">        // Set entry's css class to &quot;error&quot;, when there is no text in it
 </span><span class="boring">        entry.connect_changed(clone!(@weak dialog =&gt; move |entry| {
 </span><span class="boring">            let text = entry.text();
 </span><span class="boring">            let dialog_button = dialog.
