@@ -153,17 +153,24 @@
 First, follow the instructions on the <a href="https://www.gtk.org/docs/installations/">GTK website</a> in order to install GTK 4.
 Then install Rust with <a href="https://rustup.rs/">rustup</a>.</p>
 <p>Now, create a new project by executing:</p>
-<pre><code>cargo new my-gtk-app
+<pre><code class="language-bash">cargo new my-gtk-app
 </code></pre>
-<p>Find out the GTK 4 version on your machine by running</p>
+<p>Add the <a href="https://crates.io/crates/gtk4">gtk4 crate</a> to your dependencies in <code>Cargo.toml</code> using following command:</p>
+<pre><code>cargo add gtk4 --rename gtk
+</code></pre>
+<blockquote>
+<p>To use functionality that has been added to later releases, you have to specify this as a <a href="https://doc.rust-lang.org/cargo/reference/features.html">feature</a>.
+Per default <code>gtk4-rs</code> is compatible with all GTK 4 releases.
+For example, if you want to use functionality that was introduced with GTK 4.6, you would run the following command:</p>
+<pre><code>cargo add gtk4 --rename gtk --features v4_6
+</code></pre>
+<p>This will only work if your available GTK version is indeed &gt;= 4.6.
+You can get the version by executing the following command:</p>
 <pre><code>pkg-config --modversion gtk4
 </code></pre>
-<p>Use this information to add the <a href="https://crates.io/crates/gtk4">gtk4 crate</a> to your dependencies in <code>Cargo.toml</code>.
-At the time of this writing the newest version is <code>4.8</code>.</p>
-<pre><code>cargo add gtk4 --rename gtk --features v4_8
-</code></pre>
+</blockquote>
 <p>Now, you can run your application by executing:</p>
-<pre><code>cargo run
+<pre><code class="language-bash">cargo run
 </code></pre>
 
                     </main>

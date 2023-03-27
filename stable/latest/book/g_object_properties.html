@@ -156,11 +156,11 @@ According to the GTK docs, it can be read and be written to.
 That is why <code>gtk-rs</code> provides corresponding <a href="../docs/gtk4/struct.Switch.html#method.state"><code>state</code></a> and <a href="../docs/gtk4/struct.Switch.html#method.set_state"><code>set_state</code></a> methods.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/g_object_properties/1/main.rs">listings/g_object_properties/1/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::prelude::*;
-</span><span class="boring">use gtk::{glib, Align, Application, ApplicationWindow, Box, Orientation, Switch};
+</span><span class="boring">use gtk::{Align, Application, ApplicationWindow, Box, Orientation, Switch};
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.GObjectProperties1&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -168,7 +168,7 @@ That is why <code>gtk-rs</code> provides corresponding <a href="../docs/gtk4/str
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -209,11 +209,11 @@ That is why <code>gtk-rs</code> provides corresponding <a href="../docs/gtk4/str
 We use the <a href="https://matematikaadit.github.io/posts/rust-turbofish.html">turbofish</a> syntax to specify the type if it cannot be inferred.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/g_object_properties/2/main.rs">listings/g_object_properties/2/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::prelude::*;
-</span><span class="boring">use gtk::{glib, Align, Application, ApplicationWindow, Box, Orientation, Switch};
+</span><span class="boring">use gtk::{Align, Application, ApplicationWindow, Box, Orientation, Switch};
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.GObjectProperties2&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -221,7 +221,7 @@ We use the <a href="https://matematikaadit.github.io/posts/rust-turbofish.html">
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -260,7 +260,7 @@ We use the <a href="https://matematikaadit.github.io/posts/rust-turbofish.html">
 </span><span class="boring">}</span></code></pre>
 <p>Both <code>property</code> and <code>set_property</code> panic if the property does not exist, has the wrong type or has the wrong permissions.
 This is fine in most situations where these cases are hard-coded within the program.
-However, if you want to decide for yourself how to react to failure, you can enforce a returned <code>Option</code> by specifying <code>property::&lt;Option&lt;T&gt;&gt;</code> or <code>set_property::&lt;Option&lt;T&gt;&gt;</code>.</p>
+If this does not apply for your program you might want to use <a href="https://gtk-rs.org/gtk-rs-core/stable/latest/docs/glib/object/trait.ObjectExt.html#tymethod.try_property"><code>try_property</code></a> and <a href="https://gtk-rs.org/gtk-rs-core/stable/latest/docs/glib/object/trait.ObjectExt.html#tymethod.try_set_property"><code>try_set_property</code></a> instead.</p>
 <p>Properties can not only be accessed via getters &amp; setters, they can also be bound to each other.
 Let's see how that would look like for two <code>Switch</code> instances.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/g_object_properties/3/main.rs">listings/g_object_properties/3/main.rs</a></p>
@@ -270,7 +270,7 @@ Let's see how that would look like for two <code>Switch</code> instances.</p>
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.GObjectProperties3&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -278,7 +278,7 @@ Let's see how that would look like for two <code>Switch</code> instances.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -324,7 +324,7 @@ We also want the binding to be bidirectional, so we specify this with the <a hre
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.GObjectProperties3&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -332,7 +332,7 @@ We also want the binding to be bidirectional, so we specify this with the <a hre
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -373,7 +373,7 @@ We also want the binding to be bidirectional, so we specify this with the <a hre
 <div style="text-align:center">
  <video autoplay muted loop>
     <source src="vid/g_object_properties_switches.webm">
-    <p>A video which shows that toggling one button also toggles the other one </p>
+    Your browser does not support the video tag.
  </video>
 </div>
 <h2 id="adding-properties-to-custom-gobjects"><a class="header" href="#adding-properties-to-custom-gobjects">Adding Properties to Custom GObjects</a></h2>
@@ -548,7 +548,7 @@ impl ButtonImpl for CustomButton {
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.GObjectProperties4&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -556,7 +556,7 @@ impl ButtonImpl for CustomButton {
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -623,7 +623,7 @@ By leveraging <a href="https://gtk-rs.org/gtk-rs-core/stable/latest/docs/glib/ob
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.GObjectProperties4&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -631,7 +631,7 @@ By leveraging <a href="https://gtk-rs.org/gtk-rs-core/stable/latest/docs/glib/ob
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -690,7 +690,7 @@ By leveraging <a href="https://gtk-rs.org/gtk-rs-core/stable/latest/docs/glib/ob
 <div style="text-align:center">
  <video autoplay muted loop>
     <source src="vid/g_object_properties_buttons.webm">
-    <p>A video which shows that pressing on one button also changes the number on the other one</p>
+    Your browser does not support the video tag.
  </video>
 </div>
 <p>The final nice feature of properties is, that you can connect a callback to the event when a property gets changed.
@@ -705,7 +705,7 @@ For example like this:</p>
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.GObjectProperties4&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -713,7 +713,7 @@ For example like this:</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {

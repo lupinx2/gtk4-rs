@@ -158,13 +158,13 @@ Let's start by installing Libadwaita and adding the <code>libadwaita</code> crat
 </span><span class="boring">mod utils;
 </span><span class="boring">mod window;
 </span><span class="boring">
+</span><span class="boring">use gtk::gio;
 </span><span class="boring">use gtk::prelude::*;
-</span><span class="boring">use gtk::{gio, glib};
 </span><span class="boring">use window::Window;
 </span><span class="boring">
 </span><span class="boring">static APP_ID: &amp;str = &quot;org.gtk_rs.Todo5&quot;;
 </span><span class="boring">
-</span>fn main() -&gt; glib::ExitCode {
+</span>fn main() {
     gio::resources_register_include!(&quot;todo_5.gresource&quot;)
         .expect(&quot;Failed to register resources.&quot;);
 
@@ -177,7 +177,7 @@ Let's start by installing Libadwaita and adding the <code>libadwaita</code> crat
     app.connect_activate(build_ui);
 
     // Run the application
-    app.run()
+    app.run();
 }
 
 //                       👇 changed
@@ -200,11 +200,11 @@ fn build_ui(app: &amp;adw::Application) {
 </span><span class="boring">
 </span><span class="boring">use gio::Settings;
 </span><span class="boring">use glib::{clone, Object};
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{
 </span><span class="boring">    gio, glib, CustomFilter, FilterListModel, NoSelection, SignalListItemFactory,
 </span><span class="boring">};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">
 </span><span class="boring">use crate::task_object::{TaskData, TaskObject};
 </span><span class="boring">use crate::task_row::TaskRow;
@@ -221,7 +221,7 @@ fn build_ui(app: &amp;adw::Application) {
 </span><span class="boring">impl Window {
 </span>    pub fn new(app: &amp;adw::Application) -&gt; Self {
         // Create new window
-        Object::builder().property(&quot;application&quot;, app).build()
+        Object::new(&amp;[(&quot;application&quot;, app)])
     }
 <span class="boring">
 </span><span class="boring">    fn setup_settings(&amp;self) {
@@ -288,8 +288,9 @@ fn build_ui(app: &amp;adw::Application) {
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list view
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
+</span><span class="boring">        let filter_model =
+</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">
 </span><span class="boring">        // Filter model whenever the value of the key &quot;filter&quot; changes
@@ -338,7 +339,7 @@ fn build_ui(app: &amp;adw::Application) {
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text().to_string();
+</span><span class="boring">        let content = buffer.text();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -357,28 +358,23 @@ fn build_ui(app: &amp;adw::Application) {
 </span><span class="boring">        factory.connect_setup(move |_, list_item| {
 </span><span class="boring">            // Create `TaskRow`
 </span><span class="boring">            let task_row = TaskRow::new();
-</span><span class="boring">            list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
-</span><span class="boring">                .set_child(Some(&amp;task_row));
+</span><span class="boring">            list_item.set_child(Some(&amp;task_row));
 </span><span class="boring">        });
 </span><span class="boring">
 </span><span class="boring">        // Tell factory how to bind `TaskRow` to a `TaskObject`
 </span><span class="boring">        factory.connect_bind(move |_, list_item| {
 </span><span class="boring">            // Get `TaskObject` from `ListItem`
 </span><span class="boring">            let task_object = list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">                .item()
-</span><span class="boring">                .and_downcast::&lt;TaskObject&gt;()
+</span><span class="boring">                .expect(&quot;The item has to exist.&quot;)
+</span><span class="boring">                .downcast::&lt;TaskObject&gt;()
 </span><span class="boring">                .expect(&quot;The item has to be an `TaskObject`.&quot;);
 </span><span class="boring">
 </span><span class="boring">            // Get `TaskRow` from `ListItem`
 </span><span class="boring">            let task_row = list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">                .child()
-</span><span class="boring">                .and_downcast::&lt;TaskRow&gt;()
+</span><span class="boring">                .expect(&quot;The child has to exist.&quot;)
+</span><span class="boring">                .downcast::&lt;TaskRow&gt;()
 </span><span class="boring">                .expect(&quot;The child has to be a `TaskRow`.&quot;);
 </span><span class="boring">
 </span><span class="boring">            task_row.bind(&amp;task_object);
@@ -388,10 +384,9 @@ fn build_ui(app: &amp;adw::Application) {
 </span><span class="boring">        factory.connect_unbind(move |_, list_item| {
 </span><span class="boring">            // Get `TaskRow` from `ListItem`
 </span><span class="boring">            let task_row = list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">                .child()
-</span><span class="boring">                .and_downcast::&lt;TaskRow&gt;()
+</span><span class="boring">                .expect(&quot;The child has to exist.&quot;)
+</span><span class="boring">                .downcast::&lt;TaskRow&gt;()
 </span><span class="boring">                .expect(&quot;The child has to be a `TaskRow`.&quot;);
 </span><span class="boring">
 </span><span class="boring">            task_row.unbind();
@@ -434,12 +429,12 @@ fn build_ui(app: &amp;adw::Application) {
 It also loads stylesheets automatically from resources as long as they are named <a href="https://world.pages.gitlab.gnome.org/Rust/libadwaita-rs/stable/latest/docs/libadwaita/struct.Application.html#automatic-resources">correctly</a>.</p>
 <p>Looking at our To-Do app we can see that the looks of its widgets changed.
 This is because the <code>Default</code> stylesheet provided by GTK has been replaced with the <code>Adwaita</code> stylesheet provided by Libadwaita.</p>
-<div style="text-align:center"><img src="img/todo_change_4_5.png" alt="Transformation of To-Do app"/></div>
+<div style="text-align:center"><img src="img/todo_change_4_5.png"/></div>
 <p>Also, our app now switches to the dark style together with the rest of the system.</p>
 <div style="text-align:center">
  <video autoplay muted loop>
   <source src="vid/todo_dark.webm" type="video/webm">
-   <p>A video which shows how the To-Do app changes color scheme from light to dark</p>
+Your browser does not support the video tag.
  </video>
 </div>
 <h2 id="boxed-lists"><a class="header" href="#boxed-lists">Boxed lists</a></h2>
@@ -620,7 +615,7 @@ There we specify the model, as well as a closure describing how to transform the
 </span><span class="boring">impl Window {
 </span><span class="boring">    pub fn new(app: &amp;adw::Application) -&gt; Self {
 </span><span class="boring">        // Create new window
-</span><span class="boring">        Object::builder().property(&quot;application&quot;, app).build()
+</span><span class="boring">        Object::new(&amp;[(&quot;application&quot;, app)])
 </span><span class="boring">    }
 </span><span class="boring">
 </span><span class="boring">    fn setup_settings(&amp;self) {
@@ -687,8 +682,9 @@ There we specify the model, as well as a closure describing how to transform the
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span>        // Wrap model with filter and selection and pass it to the list box
-        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
-        let selection_model = NoSelection::new(Some(filter_model.clone()));
+        let filter_model =
+            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
+        let selection_model = NoSelection::new(Some(&amp;filter_model));
         self.imp().tasks_list.bind_model(
             Some(&amp;selection_model),
             clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -785,7 +781,7 @@ There we specify the model, as well as a closure describing how to transform the
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text().to_string();
+</span><span class="boring">        let content = buffer.text();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -855,7 +851,7 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">impl Window {
 </span><span class="boring">    pub fn new(app: &amp;adw::Application) -&gt; Self {
 </span><span class="boring">        // Create new window
-</span><span class="boring">        Object::builder().property(&quot;application&quot;, app).build()
+</span><span class="boring">        Object::new(&amp;[(&quot;application&quot;, app)])
 </span><span class="boring">    }
 </span><span class="boring">
 </span><span class="boring">    fn setup_settings(&amp;self) {
@@ -922,8 +918,9 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
+</span><span class="boring">        let filter_model =
+</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -1020,7 +1017,7 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text().to_string();
+</span><span class="boring">        let content = buffer.text();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -1087,7 +1084,7 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">impl Window {
 </span><span class="boring">    pub fn new(app: &amp;adw::Application) -&gt; Self {
 </span><span class="boring">        // Create new window
-</span><span class="boring">        Object::builder().property(&quot;application&quot;, app).build()
+</span><span class="boring">        Object::new(&amp;[(&quot;application&quot;, app)])
 </span><span class="boring">    }
 </span><span class="boring">
 </span><span class="boring">    fn setup_settings(&amp;self) {
@@ -1154,8 +1151,9 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
+</span><span class="boring">        let filter_model =
+</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -1252,7 +1250,7 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text().to_string();
+</span><span class="boring">        let content = buffer.text();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -1319,7 +1317,7 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">impl Window {
 </span><span class="boring">    pub fn new(app: &amp;adw::Application) -&gt; Self {
 </span><span class="boring">        // Create new window
-</span><span class="boring">        Object::builder().property(&quot;application&quot;, app).build()
+</span><span class="boring">        Object::new(&amp;[(&quot;application&quot;, app)])
 </span><span class="boring">    }
 </span><span class="boring">
 </span><span class="boring">    fn setup_settings(&amp;self) {
@@ -1386,8 +1384,9 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with filter and selection and pass it to the list box
-</span><span class="boring">        let filter_model = FilterListModel::new(Some(self.tasks()), self.filter());
-</span><span class="boring">        let selection_model = NoSelection::new(Some(filter_model.clone()));
+</span><span class="boring">        let filter_model =
+</span><span class="boring">            FilterListModel::new(Some(&amp;self.tasks()), self.filter().as_ref());
+</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;filter_model));
 </span><span class="boring">        self.imp().tasks_list.bind_model(
 </span><span class="boring">            Some(&amp;selection_model),
 </span><span class="boring">            clone!(@weak self as window =&gt; @default-panic, move |obj| {
@@ -1484,7 +1483,7 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text().to_string();
+</span><span class="boring">        let content = buffer.text();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -1525,7 +1524,7 @@ That means we can just bind their properties without having to worry about unbin
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
 <p>This is how the boxed list style looks like in our app.</p>
-<div style="text-align:center"><img src="img/todo_6.png" alt="The To-Do app using libadwaita"/></div>
+<div style="text-align:center"><img src="img/todo_6.png"/></div>
 
                     </main>
 

@@ -156,13 +156,11 @@
 Each label will display an integer starting from 0 and ranging up to 100.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/1/main.rs">listings/list_widgets/1/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::prelude::*;
-</span><span class="boring">use gtk::{
-</span><span class="boring">    glib, Application, ApplicationWindow, Label, ListBox, PolicyType, ScrolledWindow,
-</span><span class="boring">};
+</span><span class="boring">use gtk::{Application, ApplicationWindow, Label, ListBox, PolicyType, ScrolledWindow};
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets1&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -170,7 +168,7 @@ Each label will display an integer starting from 0 and ranging up to 100.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -204,13 +202,11 @@ Therefore, we add <code>ListBox</code> to a <a href="../docs/gtk4/struct.Scrolle
 Now we can scroll through our elements.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/1/main.rs">listings/list_widgets/1/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::prelude::*;
-</span><span class="boring">use gtk::{
-</span><span class="boring">    glib, Application, ApplicationWindow, Label, ListBox, PolicyType, ScrolledWindow,
-</span><span class="boring">};
+</span><span class="boring">use gtk::{Application, ApplicationWindow, Label, ListBox, PolicyType, ScrolledWindow};
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets1&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -218,7 +214,7 @@ Now we can scroll through our elements.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -247,7 +243,7 @@ Now we can scroll through our elements.</p>
     // Present window
     window.present();
 <span class="boring">}</span></code></pre>
-<div style="text-align:center"><img src="img/lists_list_box.png" alt="Window with a list of integers"/></div>
+<div style="text-align:center"><img src="img/lists_list_box.png"/></div>
 <h2 id="views"><a class="header" href="#views">Views</a></h2>
 <p>That was easy enough.
 However, we currently create one widget per element.
@@ -263,7 +259,7 @@ But how could we possibly deal with the infinite amount of posts in a social med
 <p>What makes this concept scalable is that GTK only has to create slightly more widgets than we can currently look at.
 As we scroll through our elements, the widgets which become invisible will be reused.
 The following figure demonstrates how this works in practice.</p>
-<div style="text-align:center"><img src="img/scalable_lists_concept.png" alt="Diagram showing how list widgets are being recycled"/></div>
+<div style="text-align:center"><img src="img/scalable_lists_concept.png"/></div>
 <p>100 000 elements is something <code>ListBox</code> will struggle with, so let's use this to demonstrate scalable lists.</p>
 <p>We start by defining and filling up our model.
 The model is an instance of <a href="https://gtk-rs.org/gtk-rs-core/stable/latest/docs/gio/struct.ListStore.html"><code>gio::ListStore</code></a>.
@@ -281,7 +277,7 @@ So let's create a custom GObject <code>IntegerObject</code> that which is initia
 
 impl IntegerObject {
     pub fn new(number: i32) -&gt; Self {
-        Object::builder().property(&quot;number&quot;, number).build()
+        Object::new(&amp;[(&quot;number&quot;, &amp;number)])
     }
 }
 <span class="boring"></span></code></pre>
@@ -341,16 +337,16 @@ Neither <code>Label</code> nor any other widget is mentioned here.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/2/main.rs">listings/list_widgets/2/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
-</span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection,
+</span><span class="boring">    gio, Application, ApplicationWindow, Label, ListView, PolicyType, ScrolledWindow,
+</span><span class="boring">    SignalListItemFactory, SingleSelection,
 </span><span class="boring">};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets2&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -358,7 +354,7 @@ Neither <code>Label</code> nor any other widget is mentioned here.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -375,19 +371,15 @@ Neither <code>Label</code> nor any other widget is mentioned here.</p>
 </span><span class="boring">    let factory = SignalListItemFactory::new();
 </span><span class="boring">    factory.connect_setup(move |_, list_item| {
 </span><span class="boring">        let label = Label::new(None);
-</span><span class="boring">        list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
-</span><span class="boring">            .set_child(Some(&amp;label));
+</span><span class="boring">        list_item.set_child(Some(&amp;label));
 </span><span class="boring">    });
 </span><span class="boring">
 </span><span class="boring">    factory.connect_bind(move |_, list_item| {
 </span><span class="boring">        // Get `IntegerObject` from `ListItem`
 </span><span class="boring">        let integer_object = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">            .item()
-</span><span class="boring">            .and_downcast::&lt;IntegerObject&gt;()
+</span><span class="boring">            .expect(&quot;The item has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;IntegerObject&gt;()
 </span><span class="boring">            .expect(&quot;The item has to be an `IntegerObject`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Get `i32` from `IntegerObject`
@@ -395,18 +387,17 @@ Neither <code>Label</code> nor any other widget is mentioned here.</p>
 </span><span class="boring">
 </span><span class="boring">        // Get `Label` from `ListItem`
 </span><span class="boring">        let label = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">            .child()
-</span><span class="boring">            .and_downcast::&lt;Label&gt;()
+</span><span class="boring">            .expect(&quot;The child has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;Label&gt;()
 </span><span class="boring">            .expect(&quot;The child has to be a `Label`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Set &quot;label&quot; to &quot;number&quot;
 </span><span class="boring">        label.set_label(&amp;number.to_string());
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
-</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
+</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -433,16 +424,16 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/2/main.rs">listings/list_widgets/2/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
-</span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection,
+</span><span class="boring">    gio, Application, ApplicationWindow, Label, ListView, PolicyType, ScrolledWindow,
+</span><span class="boring">    SignalListItemFactory, SingleSelection,
 </span><span class="boring">};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets2&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -450,7 +441,7 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -467,19 +458,15 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 </span>    let factory = SignalListItemFactory::new();
     factory.connect_setup(move |_, list_item| {
         let label = Label::new(None);
-        list_item
-            .downcast_ref::&lt;ListItem&gt;()
-            .expect(&quot;Needs to be ListItem&quot;)
-            .set_child(Some(&amp;label));
+        list_item.set_child(Some(&amp;label));
     });
 <span class="boring">
 </span><span class="boring">    factory.connect_bind(move |_, list_item| {
 </span><span class="boring">        // Get `IntegerObject` from `ListItem`
 </span><span class="boring">        let integer_object = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">            .item()
-</span><span class="boring">            .and_downcast::&lt;IntegerObject&gt;()
+</span><span class="boring">            .expect(&quot;The item has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;IntegerObject&gt;()
 </span><span class="boring">            .expect(&quot;The item has to be an `IntegerObject`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Get `i32` from `IntegerObject`
@@ -487,18 +474,17 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 </span><span class="boring">
 </span><span class="boring">        // Get `Label` from `ListItem`
 </span><span class="boring">        let label = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">            .child()
-</span><span class="boring">            .and_downcast::&lt;Label&gt;()
+</span><span class="boring">            .expect(&quot;The child has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;Label&gt;()
 </span><span class="boring">            .expect(&quot;The child has to be a `Label`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Set &quot;label&quot; to &quot;number&quot;
 </span><span class="boring">        label.set_label(&amp;number.to_string());
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
-</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
+</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -522,16 +508,16 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/2/main.rs">listings/list_widgets/2/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
-</span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection,
+</span><span class="boring">    gio, Application, ApplicationWindow, Label, ListView, PolicyType, ScrolledWindow,
+</span><span class="boring">    SignalListItemFactory, SingleSelection,
 </span><span class="boring">};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets2&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -539,7 +525,7 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -556,19 +542,15 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 </span><span class="boring">    let factory = SignalListItemFactory::new();
 </span><span class="boring">    factory.connect_setup(move |_, list_item| {
 </span><span class="boring">        let label = Label::new(None);
-</span><span class="boring">        list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
-</span><span class="boring">            .set_child(Some(&amp;label));
+</span><span class="boring">        list_item.set_child(Some(&amp;label));
 </span><span class="boring">    });
 </span><span class="boring">
 </span>    factory.connect_bind(move |_, list_item| {
         // Get `IntegerObject` from `ListItem`
         let integer_object = list_item
-            .downcast_ref::&lt;ListItem&gt;()
-            .expect(&quot;Needs to be ListItem&quot;)
             .item()
-            .and_downcast::&lt;IntegerObject&gt;()
+            .expect(&quot;The item has to exist.&quot;)
+            .downcast::&lt;IntegerObject&gt;()
             .expect(&quot;The item has to be an `IntegerObject`.&quot;);
 
         // Get `i32` from `IntegerObject`
@@ -576,18 +558,17 @@ We connect to it to create a <code>Label</code> for every requested widget.</p>
 
         // Get `Label` from `ListItem`
         let label = list_item
-            .downcast_ref::&lt;ListItem&gt;()
-            .expect(&quot;Needs to be ListItem&quot;)
             .child()
-            .and_downcast::&lt;Label&gt;()
+            .expect(&quot;The child has to exist.&quot;)
+            .downcast::&lt;Label&gt;()
             .expect(&quot;The child has to be a `Label`.&quot;);
 
         // Set &quot;label&quot; to &quot;number&quot;
         label.set_label(&amp;number.to_string());
     });
 <span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
-</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
+</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -613,16 +594,16 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/2/main.rs">listings/list_widgets/2/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
-</span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection,
+</span><span class="boring">    gio, Application, ApplicationWindow, Label, ListView, PolicyType, ScrolledWindow,
+</span><span class="boring">    SignalListItemFactory, SingleSelection,
 </span><span class="boring">};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets2&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -630,7 +611,7 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -647,19 +628,15 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 </span><span class="boring">    let factory = SignalListItemFactory::new();
 </span><span class="boring">    factory.connect_setup(move |_, list_item| {
 </span><span class="boring">        let label = Label::new(None);
-</span><span class="boring">        list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
-</span><span class="boring">            .set_child(Some(&amp;label));
+</span><span class="boring">        list_item.set_child(Some(&amp;label));
 </span><span class="boring">    });
 </span><span class="boring">
 </span><span class="boring">    factory.connect_bind(move |_, list_item| {
 </span><span class="boring">        // Get `IntegerObject` from `ListItem`
 </span><span class="boring">        let integer_object = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">            .item()
-</span><span class="boring">            .and_downcast::&lt;IntegerObject&gt;()
+</span><span class="boring">            .expect(&quot;The item has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;IntegerObject&gt;()
 </span><span class="boring">            .expect(&quot;The item has to be an `IntegerObject`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Get `i32` from `IntegerObject`
@@ -667,18 +644,17 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 </span><span class="boring">
 </span><span class="boring">        // Get `Label` from `ListItem`
 </span><span class="boring">        let label = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">            .child()
-</span><span class="boring">            .and_downcast::&lt;Label&gt;()
+</span><span class="boring">            .expect(&quot;The child has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;Label&gt;()
 </span><span class="boring">            .expect(&quot;The child has to be a `Label`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Set &quot;label&quot; to &quot;number&quot;
 </span><span class="boring">        label.set_label(&amp;number.to_string());
 </span><span class="boring">    });
 </span><span class="boring">
-</span>    let selection_model = SingleSelection::new(Some(model));
-    let list_view = ListView::new(Some(selection_model), Some(factory));
+</span>    let selection_model = SingleSelection::new(Some(&amp;model));
+    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
 <span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -702,16 +678,16 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/2/main.rs">listings/list_widgets/2/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
-</span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection,
+</span><span class="boring">    gio, Application, ApplicationWindow, Label, ListView, PolicyType, ScrolledWindow,
+</span><span class="boring">    SignalListItemFactory, SingleSelection,
 </span><span class="boring">};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets2&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -719,7 +695,7 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -736,19 +712,15 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 </span><span class="boring">    let factory = SignalListItemFactory::new();
 </span><span class="boring">    factory.connect_setup(move |_, list_item| {
 </span><span class="boring">        let label = Label::new(None);
-</span><span class="boring">        list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
-</span><span class="boring">            .set_child(Some(&amp;label));
+</span><span class="boring">        list_item.set_child(Some(&amp;label));
 </span><span class="boring">    });
 </span><span class="boring">
 </span><span class="boring">    factory.connect_bind(move |_, list_item| {
 </span><span class="boring">        // Get `IntegerObject` from `ListItem`
 </span><span class="boring">        let integer_object = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">            .item()
-</span><span class="boring">            .and_downcast::&lt;IntegerObject&gt;()
+</span><span class="boring">            .expect(&quot;The item has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;IntegerObject&gt;()
 </span><span class="boring">            .expect(&quot;The item has to be an `IntegerObject`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Get `i32` from `IntegerObject`
@@ -756,18 +728,17 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
 </span><span class="boring">
 </span><span class="boring">        // Get `Label` from `ListItem`
 </span><span class="boring">        let label = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">            .child()
-</span><span class="boring">            .and_downcast::&lt;Label&gt;()
+</span><span class="boring">            .expect(&quot;The child has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;Label&gt;()
 </span><span class="boring">            .expect(&quot;The child has to be a `Label`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Set &quot;label&quot; to &quot;number&quot;
 </span><span class="boring">        label.set_label(&amp;number.to_string());
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
-</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
+</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
 </span><span class="boring">
 </span>    let scrolled_window = ScrolledWindow::builder()
         .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -788,7 +759,7 @@ Then we pass the model and the factory to the <a href="../docs/gtk4/struct.ListV
     window.present();
 <span class="boring">}</span></code></pre>
 <p>We can now easily scroll through our long list of integers.</p>
-<div style="text-align:center"><img src="img/lists_list_view_1.png" alt="Window with a list of 100 000 integers"/></div>
+<div style="text-align:center"><img src="img/lists_list_view_1.png"/></div>
 <p>Let's see what else we can do.
 We might want to increase the number every time we activate its row.
 For that we first add the method <code>increase_number</code> to our <code>IntegerObject</code>.</p>
@@ -805,7 +776,7 @@ For that we first add the method <code>increase_number</code> to our <code>Integ
 </span><span class="boring">
 </span>impl IntegerObject {
     pub fn new(number: i32) -&gt; Self {
-        Object::builder().property(&quot;number&quot;, number).build()
+        Object::new(&amp;[(&quot;number&quot;, &amp;number)])
     }
 
     pub fn increase_number(self) {
@@ -818,16 +789,16 @@ For that we first add the method <code>increase_number</code> to our <code>Integ
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
 </span><span class="boring">use glib::BindingFlags;
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::{
 </span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
 </span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection,
 </span><span class="boring">};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets3&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -835,7 +806,7 @@ For that we first add the method <code>increase_number</code> to our <code>Integ
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -852,27 +823,22 @@ For that we first add the method <code>increase_number</code> to our <code>Integ
 </span><span class="boring">    let factory = SignalListItemFactory::new();
 </span><span class="boring">    factory.connect_setup(move |_, list_item| {
 </span><span class="boring">        let label = Label::new(None);
-</span><span class="boring">        list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
-</span><span class="boring">            .set_child(Some(&amp;label));
+</span><span class="boring">        list_item.set_child(Some(&amp;label));
 </span><span class="boring">    });
 </span><span class="boring">
 </span><span class="boring">    factory.connect_bind(move |_, list_item| {
 </span><span class="boring">        // Get `IntegerObject` from `ListItem`
 </span><span class="boring">        let integer_object = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">            .item()
-</span><span class="boring">            .and_downcast::&lt;IntegerObject&gt;()
+</span><span class="boring">            .expect(&quot;The item has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;IntegerObject&gt;()
 </span><span class="boring">            .expect(&quot;The item has to be an `IntegerObject`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Get `Label` from `ListItem`
 </span><span class="boring">        let label = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">            .child()
-</span><span class="boring">            .and_downcast::&lt;Label&gt;()
+</span><span class="boring">            .expect(&quot;The child has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;Label&gt;()
 </span><span class="boring">            .expect(&quot;The child has to be a `Label`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Bind &quot;label&quot; to &quot;number&quot;
@@ -882,15 +848,16 @@ For that we first add the method <code>increase_number</code> to our <code>Integ
 </span><span class="boring">            .build();
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
-</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
+</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
 </span><span class="boring">
 </span>    list_view.connect_activate(move |list_view, position| {
         // Get `IntegerObject` from model
         let model = list_view.model().expect(&quot;The model has to exist.&quot;);
         let integer_object = model
             .item(position)
-            .and_downcast::&lt;IntegerObject&gt;()
+            .expect(&quot;The item has to exist.&quot;)
+            .downcast::&lt;IntegerObject&gt;()
             .expect(&quot;The item has to be an `IntegerObject`.&quot;);
 
         // Increase &quot;number&quot; of `IntegerObject`
@@ -923,16 +890,16 @@ One naive approach would be to bind the properties in the &quot;bind&quot; step 
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
 </span><span class="boring">use glib::BindingFlags;
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::{
 </span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
 </span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection,
 </span><span class="boring">};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets3&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -940,7 +907,7 @@ One naive approach would be to bind the properties in the &quot;bind&quot; step 
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -957,27 +924,22 @@ One naive approach would be to bind the properties in the &quot;bind&quot; step 
 </span><span class="boring">    let factory = SignalListItemFactory::new();
 </span><span class="boring">    factory.connect_setup(move |_, list_item| {
 </span><span class="boring">        let label = Label::new(None);
-</span><span class="boring">        list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;)
-</span><span class="boring">            .set_child(Some(&amp;label));
+</span><span class="boring">        list_item.set_child(Some(&amp;label));
 </span><span class="boring">    });
 </span><span class="boring">
 </span>    factory.connect_bind(move |_, list_item| {
         // Get `IntegerObject` from `ListItem`
         let integer_object = list_item
-            .downcast_ref::&lt;ListItem&gt;()
-            .expect(&quot;Needs to be ListItem&quot;)
             .item()
-            .and_downcast::&lt;IntegerObject&gt;()
+            .expect(&quot;The item has to exist.&quot;)
+            .downcast::&lt;IntegerObject&gt;()
             .expect(&quot;The item has to be an `IntegerObject`.&quot;);
 
         // Get `Label` from `ListItem`
         let label = list_item
-            .downcast_ref::&lt;ListItem&gt;()
-            .expect(&quot;Needs to be ListItem&quot;)
             .child()
-            .and_downcast::&lt;Label&gt;()
+            .expect(&quot;The child has to exist.&quot;)
+            .downcast::&lt;Label&gt;()
             .expect(&quot;The child has to be a `Label`.&quot;);
 
         // Bind &quot;label&quot; to &quot;number&quot;
@@ -987,15 +949,16 @@ One naive approach would be to bind the properties in the &quot;bind&quot; step 
             .build();
     });
 <span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
-</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
+</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
 </span><span class="boring">
 </span><span class="boring">    list_view.connect_activate(move |list_view, position| {
 </span><span class="boring">        // Get `IntegerObject` from model
 </span><span class="boring">        let model = list_view.model().expect(&quot;The model has to exist.&quot;);
 </span><span class="boring">        let integer_object = model
 </span><span class="boring">            .item(position)
-</span><span class="boring">            .and_downcast::&lt;IntegerObject&gt;()
+</span><span class="boring">            .expect(&quot;The item has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;IntegerObject&gt;()
 </span><span class="boring">            .expect(&quot;The item has to be an `IntegerObject`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Increase &quot;number&quot; of `IntegerObject`
@@ -1033,16 +996,16 @@ Let's see how the &quot;setup&quot; step now works.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/4/main.rs">listings/list_widgets/4/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, glib, Application, ApplicationWindow, Label, ListView, PolicyType,
-</span><span class="boring">    ScrolledWindow, SignalListItemFactory, SingleSelection, Widget,
+</span><span class="boring">    gio, Application, ApplicationWindow, Label, ListView, PolicyType, ScrolledWindow,
+</span><span class="boring">    SignalListItemFactory, SingleSelection, Widget,
 </span><span class="boring">};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets4&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -1050,7 +1013,7 @@ Let's see how the &quot;setup&quot; step now works.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -1068,9 +1031,6 @@ Let's see how the &quot;setup&quot; step now works.</p>
 </span>    factory.connect_setup(move |_, list_item| {
         // Create label
         let label = Label::new(None);
-        let list_item = list_item
-            .downcast_ref::&lt;ListItem&gt;()
-            .expect(&quot;Needs to be ListItem&quot;);
         list_item.set_child(Some(&amp;label));
 
         // Bind `list_item-&gt;item-&gt;number` to `label-&gt;label`
@@ -1080,15 +1040,16 @@ Let's see how the &quot;setup&quot; step now works.</p>
             .bind(&amp;label, &quot;label&quot;, Widget::NONE);
     });
 <span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(model));
-</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;model));
+</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
 </span><span class="boring">
 </span><span class="boring">    list_view.connect_activate(move |list_view, position| {
 </span><span class="boring">        // Get `IntegerObject` from model
 </span><span class="boring">        let model = list_view.model().expect(&quot;The model has to exist.&quot;);
 </span><span class="boring">        let integer_object = model
 </span><span class="boring">            .item(position)
-</span><span class="boring">            .and_downcast::&lt;IntegerObject&gt;()
+</span><span class="boring">            .expect(&quot;The item has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;IntegerObject&gt;()
 </span><span class="boring">            .expect(&quot;The item has to be an `IntegerObject`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Increase &quot;number&quot; of `IntegerObject`
@@ -1128,17 +1089,17 @@ We do that by passing it to a <a href="../docs/gtk4/struct.FilterListModel.html"
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/5/main.rs">listings/list_widgets/5/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, glib, Application, ApplicationWindow, CustomFilter, CustomSorter,
-</span><span class="boring">    FilterChange, FilterListModel, Label, ListView, PolicyType, ScrolledWindow,
+</span><span class="boring">    gio, Application, ApplicationWindow, CustomFilter, CustomSorter, FilterChange,
+</span><span class="boring">    FilterListModel, Label, ListView, PolicyType, ScrolledWindow,
 </span><span class="boring">    SignalListItemFactory, SingleSelection, SortListModel, SorterChange, Widget,
 </span><span class="boring">};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets5&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -1146,7 +1107,7 @@ We do that by passing it to a <a href="../docs/gtk4/struct.FilterListModel.html"
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -1164,9 +1125,6 @@ We do that by passing it to a <a href="../docs/gtk4/struct.FilterListModel.html"
 </span><span class="boring">    factory.connect_setup(move |_, list_item| {
 </span><span class="boring">        // Create label
 </span><span class="boring">        let label = Label::new(None);
-</span><span class="boring">        let list_item = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;);
 </span><span class="boring">        list_item.set_child(Some(&amp;label));
 </span><span class="boring">
 </span><span class="boring">        // Bind `list_item-&gt;item-&gt;number` to `label-&gt;label`
@@ -1188,7 +1146,7 @@ We do that by passing it to a <a href="../docs/gtk4/struct.FilterListModel.html"
         // Only allow even numbers
         number % 2 == 0
     });
-    let filter_model = FilterListModel::new(Some(model), Some(filter.clone()));
+    let filter_model = FilterListModel::new(Some(&amp;model), Some(&amp;filter));
 <span class="boring">
 </span><span class="boring">    let sorter = CustomSorter::new(move |obj1, obj2| {
 </span><span class="boring">        // Get `IntegerObject` from `glib::Object`
@@ -1206,17 +1164,18 @@ We do that by passing it to a <a href="../docs/gtk4/struct.FilterListModel.html"
 </span><span class="boring">        // Reverse sorting order -&gt; large numbers come first
 </span><span class="boring">        number_2.cmp(&amp;number_1).into()
 </span><span class="boring">    });
-</span><span class="boring">    let sort_model = SortListModel::new(Some(filter_model), Some(sorter.clone()));
+</span><span class="boring">    let sort_model = SortListModel::new(Some(&amp;filter_model), Some(&amp;sorter));
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(sort_model));
-</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;sort_model));
+</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
 </span><span class="boring">
 </span><span class="boring">    list_view.connect_activate(move |list_view, position| {
 </span><span class="boring">        // Get `IntegerObject` from model
 </span><span class="boring">        let model = list_view.model().expect(&quot;The model has to exist.&quot;);
 </span><span class="boring">        let integer_object = model
 </span><span class="boring">            .item(position)
-</span><span class="boring">            .and_downcast::&lt;IntegerObject&gt;()
+</span><span class="boring">            .expect(&quot;The item has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;IntegerObject&gt;()
 </span><span class="boring">            .expect(&quot;The item has to be an `IntegerObject`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Increase &quot;number&quot; of `IntegerObject`
@@ -1250,17 +1209,17 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/5/main.rs">listings/list_widgets/5/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, glib, Application, ApplicationWindow, CustomFilter, CustomSorter,
-</span><span class="boring">    FilterChange, FilterListModel, Label, ListView, PolicyType, ScrolledWindow,
+</span><span class="boring">    gio, Application, ApplicationWindow, CustomFilter, CustomSorter, FilterChange,
+</span><span class="boring">    FilterListModel, Label, ListView, PolicyType, ScrolledWindow,
 </span><span class="boring">    SignalListItemFactory, SingleSelection, SortListModel, SorterChange, Widget,
 </span><span class="boring">};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets5&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -1268,7 +1227,7 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -1286,9 +1245,6 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">    factory.connect_setup(move |_, list_item| {
 </span><span class="boring">        // Create label
 </span><span class="boring">        let label = Label::new(None);
-</span><span class="boring">        let list_item = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;);
 </span><span class="boring">        list_item.set_child(Some(&amp;label));
 </span><span class="boring">
 </span><span class="boring">        // Bind `list_item-&gt;item-&gt;number` to `label-&gt;label`
@@ -1310,7 +1266,7 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">        // Only allow even numbers
 </span><span class="boring">        number % 2 == 0
 </span><span class="boring">    });
-</span><span class="boring">    let filter_model = FilterListModel::new(Some(model), Some(filter.clone()));
+</span><span class="boring">    let filter_model = FilterListModel::new(Some(&amp;model), Some(&amp;filter));
 </span><span class="boring">
 </span>    let sorter = CustomSorter::new(move |obj1, obj2| {
         // Get `IntegerObject` from `glib::Object`
@@ -1328,17 +1284,18 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
         // Reverse sorting order -&gt; large numbers come first
         number_2.cmp(&amp;number_1).into()
     });
-    let sort_model = SortListModel::new(Some(filter_model), Some(sorter.clone()));
+    let sort_model = SortListModel::new(Some(&amp;filter_model), Some(&amp;sorter));
 <span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(sort_model));
-</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;sort_model));
+</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
 </span><span class="boring">
 </span><span class="boring">    list_view.connect_activate(move |list_view, position| {
 </span><span class="boring">        // Get `IntegerObject` from model
 </span><span class="boring">        let model = list_view.model().expect(&quot;The model has to exist.&quot;);
 </span><span class="boring">        let integer_object = model
 </span><span class="boring">            .item(position)
-</span><span class="boring">            .and_downcast::&lt;IntegerObject&gt;()
+</span><span class="boring">            .expect(&quot;The item has to exist.&quot;)
+</span><span class="boring">            .downcast::&lt;IntegerObject&gt;()
 </span><span class="boring">            .expect(&quot;The item has to be an `IntegerObject`.&quot;);
 </span><span class="boring">
 </span><span class="boring">        // Increase &quot;number&quot; of `IntegerObject`
@@ -1371,17 +1328,17 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/5/main.rs">listings/list_widgets/5/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod integer_object;
 </span><span class="boring">
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::{
-</span><span class="boring">    gio, glib, Application, ApplicationWindow, CustomFilter, CustomSorter,
-</span><span class="boring">    FilterChange, FilterListModel, Label, ListView, PolicyType, ScrolledWindow,
+</span><span class="boring">    gio, Application, ApplicationWindow, CustomFilter, CustomSorter, FilterChange,
+</span><span class="boring">    FilterListModel, Label, ListView, PolicyType, ScrolledWindow,
 </span><span class="boring">    SignalListItemFactory, SingleSelection, SortListModel, SorterChange, Widget,
 </span><span class="boring">};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">use integer_object::IntegerObject;
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets5&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -1389,7 +1346,7 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -1407,9 +1364,6 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">    factory.connect_setup(move |_, list_item| {
 </span><span class="boring">        // Create label
 </span><span class="boring">        let label = Label::new(None);
-</span><span class="boring">        let list_item = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;);
 </span><span class="boring">        list_item.set_child(Some(&amp;label));
 </span><span class="boring">
 </span><span class="boring">        // Bind `list_item-&gt;item-&gt;number` to `label-&gt;label`
@@ -1431,7 +1385,7 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">        // Only allow even numbers
 </span><span class="boring">        number % 2 == 0
 </span><span class="boring">    });
-</span><span class="boring">    let filter_model = FilterListModel::new(Some(model), Some(filter.clone()));
+</span><span class="boring">    let filter_model = FilterListModel::new(Some(&amp;model), Some(&amp;filter));
 </span><span class="boring">
 </span><span class="boring">    let sorter = CustomSorter::new(move |obj1, obj2| {
 </span><span class="boring">        // Get `IntegerObject` from `glib::Object`
@@ -1449,17 +1403,18 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">        // Reverse sorting order -&gt; large numbers come first
 </span><span class="boring">        number_2.cmp(&amp;number_1).into()
 </span><span class="boring">    });
-</span><span class="boring">    let sort_model = SortListModel::new(Some(filter_model), Some(sorter.clone()));
+</span><span class="boring">    let sort_model = SortListModel::new(Some(&amp;filter_model), Some(&amp;sorter));
 </span><span class="boring">
-</span><span class="boring">    let selection_model = SingleSelection::new(Some(sort_model));
-</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
+</span><span class="boring">    let selection_model = SingleSelection::new(Some(&amp;sort_model));
+</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
 </span><span class="boring">
 </span>    list_view.connect_activate(move |list_view, position| {
         // Get `IntegerObject` from model
         let model = list_view.model().expect(&quot;The model has to exist.&quot;);
         let integer_object = model
             .item(position)
-            .and_downcast::&lt;IntegerObject&gt;()
+            .expect(&quot;The item has to exist.&quot;)
+            .downcast::&lt;IntegerObject&gt;()
             .expect(&quot;The item has to be an `IntegerObject`.&quot;);
 
         // Increase &quot;number&quot; of `IntegerObject`
@@ -1489,7 +1444,7 @@ Now we pass the filtered model to <a href="../docs/gtk4/struct.SortListModel.htm
 </span><span class="boring">    window.present();
 </span><span class="boring">}</span></code></pre>
 <p>After our changes, the application looks like this:</p>
-<div style="text-align:center"><img src="img/lists_list_view_2.png" alt="Window with a list of 100 000 integers, starting from 100 000"/></div>
+<div style="text-align:center"><img src="img/lists_list_view_2.png"/></div>
 <h3 id="string-list"><a class="header" href="#string-list">String List</a></h3>
 <p>Often, all you want is to display a list of strings.
 However, if you either need to filter and sort your displayed data or have too many elements to be displayed by <code>ListBox</code>, you will still want to use a view.
@@ -1499,7 +1454,7 @@ Filter and sorter is controlled by the factory, so nothing changes here.
 This is why we will skip this topic here.</p>
 <p>First, we add a bunch of strings to our model.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/6/main.rs">listings/list_widgets/6/main.rs</a></p>
-<pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::{glib, prelude::*, ListItem};
+<pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::{
 </span><span class="boring">    Application, ApplicationWindow, Label, ListView, NoSelection, PolicyType,
 </span><span class="boring">    ScrolledWindow, SignalListItemFactory, StringList, StringObject, Widget,
@@ -1507,7 +1462,7 @@ This is why we will skip this topic here.</p>
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets6&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -1515,7 +1470,7 @@ This is why we will skip this topic here.</p>
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -1530,9 +1485,6 @@ This is why we will skip this topic here.</p>
 </span><span class="boring">    factory.connect_setup(move |_, list_item| {
 </span><span class="boring">        // Create label
 </span><span class="boring">        let label = Label::new(None);
-</span><span class="boring">        let list_item = list_item
-</span><span class="boring">            .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">            .expect(&quot;Needs to be ListItem&quot;);
 </span><span class="boring">        list_item.set_child(Some(&amp;label));
 </span><span class="boring">
 </span><span class="boring">        // Bind `list_item-&gt;item-&gt;string` to `label-&gt;label`
@@ -1542,8 +1494,8 @@ This is why we will skip this topic here.</p>
 </span><span class="boring">            .bind(&amp;label, &quot;label&quot;, Widget::NONE);
 </span><span class="boring">    });
 </span><span class="boring">
-</span><span class="boring">    let selection_model = NoSelection::new(Some(model));
-</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
+</span><span class="boring">    let selection_model = NoSelection::new(Some(&amp;model));
+</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling
@@ -1568,7 +1520,7 @@ This means we don't have to create a custom GObject for our model anymore.</p>
 <p>As usual, we connect the label to the list item via an expression.
 Here we can use <a href="../docs/gtk4/struct.StringObject.html"><code>StringObject</code></a>, which exposes its content via the <a href="https://docs.gtk.org/gtk4/property.StringObject.string.html">property &quot;string&quot;</a>.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/list_widgets/6/main.rs">listings/list_widgets/6/main.rs</a></p>
-<pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::{glib, prelude::*, ListItem};
+<pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::{
 </span><span class="boring">    Application, ApplicationWindow, Label, ListView, NoSelection, PolicyType,
 </span><span class="boring">    ScrolledWindow, SignalListItemFactory, StringList, StringObject, Widget,
@@ -1576,7 +1528,7 @@ Here we can use <a href="../docs/gtk4/struct.StringObject.html"><code>StringObje
 </span><span class="boring">
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.ListWidgets6&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -1584,7 +1536,7 @@ Here we can use <a href="../docs/gtk4/struct.StringObject.html"><code>StringObje
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn build_ui(app: &amp;Application) {
@@ -1599,9 +1551,6 @@ Here we can use <a href="../docs/gtk4/struct.StringObject.html"><code>StringObje
 </span>    factory.connect_setup(move |_, list_item| {
         // Create label
         let label = Label::new(None);
-        let list_item = list_item
-            .downcast_ref::&lt;ListItem&gt;()
-            .expect(&quot;Needs to be ListItem&quot;);
         list_item.set_child(Some(&amp;label));
 
         // Bind `list_item-&gt;item-&gt;string` to `label-&gt;label`
@@ -1611,8 +1560,8 @@ Here we can use <a href="../docs/gtk4/struct.StringObject.html"><code>StringObje
             .bind(&amp;label, &quot;label&quot;, Widget::NONE);
     });
 <span class="boring">
-</span><span class="boring">    let selection_model = NoSelection::new(Some(model));
-</span><span class="boring">    let list_view = ListView::new(Some(selection_model), Some(factory));
+</span><span class="boring">    let selection_model = NoSelection::new(Some(&amp;model));
+</span><span class="boring">    let list_view = ListView::new(Some(&amp;selection_model), Some(&amp;factory));
 </span><span class="boring">
 </span><span class="boring">    let scrolled_window = ScrolledWindow::builder()
 </span><span class="boring">        .hscrollbar_policy(PolicyType::Never) // Disable horizontal scrolling

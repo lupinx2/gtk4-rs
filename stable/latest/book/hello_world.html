@@ -155,16 +155,16 @@ For that we use the <a href="https://rust-unofficial.github.io/patterns/patterns
 Note that we also import the prelude to bring the necessary traits into scope.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/hello_world/1/main.rs">listings/hello_world/1/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground">use gtk::prelude::*;
-use gtk::{glib, Application};
+use gtk::Application;
 
 const APP_ID: &amp;str = &quot;org.gtk_rs.HelloWorld1&quot;;
 
-fn main() -&gt; glib::ExitCode {
+fn main() {
     // Create a new application
     let app = Application::builder().application_id(APP_ID).build();
 
     // Run the application
-    app.run()
+    app.run();
 }</code></pre>
 <p>It builds fine, but nothing but a warning in our terminal appears.</p>
 <pre><code>GLib-GIO-WARNING: Your application does not implement g_application_activate()
@@ -174,11 +174,11 @@ and has no handlers connected to the 'activate' signal. It should do one of thes
 So let's create a <a href="../docs/gtk4/struct.ApplicationWindow.html"><code>gtk::ApplicationWindow</code></a> there.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/hello_world/2/main.rs">listings/hello_world/2/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground">use gtk::prelude::*;
-use gtk::{glib, Application, ApplicationWindow};
+use gtk::{Application, ApplicationWindow};
 
 const APP_ID: &amp;str = &quot;org.gtk_rs.HelloWorld2&quot;;
 
-fn main() -&gt; glib::ExitCode {
+fn main() {
     // Create a new application
     let app = Application::builder().application_id(APP_ID).build();
 
@@ -186,7 +186,7 @@ fn main() -&gt; glib::ExitCode {
     app.connect_activate(build_ui);
 
     // Run the application
-    app.run()
+    app.run();
 }
 
 fn build_ui(app: &amp;Application) {
@@ -200,15 +200,15 @@ fn build_ui(app: &amp;Application) {
     window.present();
 }</code></pre>
 <p>That is better!</p>
-<div style="text-align:center"><img src="img/hello_world_empty.png" alt="An empty window with a header bar with label 'My GTK App'"/></div>
+<div style="text-align:center"><img src="img/hello_world_empty.png" /></div>
 <p>Normally we expect to be able to interact with the user interface.
 Also, the name of the chapter suggests that the phrase &quot;Hello World!&quot; will be involved.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/hello_world/3/main.rs">listings/hello_world/3/main.rs</a></p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use gtk::prelude::*;
-</span><span class="boring">use gtk::{glib, Application, ApplicationWindow, Button};
+</span><span class="boring">use gtk::{Application, ApplicationWindow, Button};
 </span><span class="boring">const APP_ID: &amp;str = &quot;org.gtk_rs.HelloWorld3&quot;;
 </span><span class="boring">
-</span><span class="boring">fn main() -&gt; glib::ExitCode {
+</span><span class="boring">fn main() {
 </span><span class="boring">    // Create a new application
 </span><span class="boring">    let app = Application::builder().application_id(APP_ID).build();
 </span><span class="boring">
@@ -216,7 +216,7 @@ Also, the name of the chapter suggests that the phrase &quot;Hello World!&quot; 
 </span><span class="boring">    app.connect_activate(build_ui);
 </span><span class="boring">
 </span><span class="boring">    // Run the application
-</span><span class="boring">    app.run()
+</span><span class="boring">    app.run();
 </span><span class="boring">}
 </span><span class="boring">
 </span>fn build_ui(app: &amp;Application) {
@@ -230,7 +230,7 @@ Also, the name of the chapter suggests that the phrase &quot;Hello World!&quot; 
         .build();
 
     // Connect to &quot;clicked&quot; signal of `button`
-    button.connect_clicked(|button| {
+    button.connect_clicked(move |button| {
         // Set the label to &quot;Hello World!&quot; after the button has been clicked on
         button.set_label(&quot;Hello World!&quot;);
     });
@@ -256,7 +256,7 @@ Here, we've hidden that we brought <code>gtk::Button</code> into scope.</p>
 <div style="text-align:center">
  <video autoplay muted loop>
   <source src="vid/hello_world_button.webm" type="video/webm">
-  <p>A video which shows that pressing on the button changes it's label</p>
+Your browser does not support the video tag.
  </video>
 </div>
 <p>Wasn't that hard to create our first <code>gtk-rs</code> app, right?

@@ -161,7 +161,7 @@ In this chapter we will discuss how to follow GNOME's <a href="https://developer
 <li>adds <a href="https://world.pages.gitlab.gnome.org/Rust/libadwaita-rs/stable/latest/docs/libadwaita/struct.StyleManager.html">API</a> to support the cross-desktop dark style preference</li>
 </ul>
 <p>In order to use the Rust bindings, add the <a href="https://crates.io/crates/libadwaita">libadwaita crate</a> as dependency by executing:</p>
-<pre><code>cargo add libadwaita --rename adw --features v1_2
+<pre><code>cargo add libadwaita --rename adw
 </code></pre>
 <p>The versions of the <code>gtk4</code> and <code>libadwaita</code> crates need to be synced.
 Just remember that when you update one of them to the newest version to update the other one as well. </p>
@@ -181,31 +181,14 @@ Just follow the installation instruction that is suitable for your distribution.
 <pre><code>brew install libadwaita
 </code></pre>
 <h2 id="windows"><a class="header" href="#windows">Windows</a></h2>
-<h2 id="if-using-gvsbuild"><a class="header" href="#if-using-gvsbuild">If using gvsbuild</a></h2>
-<p>If you used <code>gvsbuild</code> to build GTK 4:</p>
-<pre><code>gvsbuild build libadwaita librsvg
-</code></pre>
-<h2 id="if-building-manually-with-msvc"><a class="header" href="#if-building-manually-with-msvc">If building manually with MSVC:</a></h2>
 <p>From the Windows start menu, search for <code>x64 Native Tools Command Prompt for VS 2019</code>.
 That will open a terminal configured to use MSVC x64 tools.
 From there, run the following commands:</p>
 <pre><code>cd /
 git clone https://gitlab.gnome.org/GNOME/libadwaita.git --depth 1
 cd libadwaita
-meson setup builddir -Dprefix=C:/gnome -Dintrospection=disabled -Dvapi=false
+meson setup builddir -Dprefix=C:/gnome -Dintrospection=disabled -Dvapi=false -Dexamples=false
 meson install -C builddir
-</code></pre>
-<h2 id="work-around-missing-icons"><a class="header" href="#work-around-missing-icons">Work around missing icons</a></h2>
-<p><a href="https://gitlab.gnome.org/GNOME/gtk/-/blob/34b9ec5be2f3a38e1e72c4d96f130a2b14734121/NEWS#L60">This workaround is needed for GTK &lt; 4.10</a>
-due to <a href="https://gitlab.gnome.org/GNOME/gtk/-/issues/5303">this issue</a>.</p>
-<h3 id="gvsbuild"><a class="header" href="#gvsbuild">gvsbuild</a></h3>
-<p>From a command prompt:</p>
-<pre><code>xcopy /s /i C:\gtk-build\gtk\x64\release\share\icons\hicolor\scalable\apps C:\gtk-build\gtk\x64\release\share\icons\hicolor\scalable\actions
-gtk4-update-icon-cache.exe -t -f C:\gtk-build\gtk\x64\release\share\icons\hicolor
-</code></pre>
-<h3 id="manually-with-msvc"><a class="header" href="#manually-with-msvc">Manually with MSVC</a></h3>
-<pre><code>xcopy /s /i C:\gnome\share\icons\hicolor\scalable\apps C:\gnome\share\icons\hicolor\scalable\actions
-gtk4-update-icon-cache.exe -t -f C:\gnome\share\icons\hicolor
 </code></pre>
 
                     </main>

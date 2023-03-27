@@ -154,7 +154,7 @@ We are going to build a To-Do app!</p>
 <p>For now, we would already be satisfied with a minimal version.
 An entry to input new tasks and a list view to display them will suffice.
 Something like this:</p>
-<div style="text-align:center"><img src="img/todo_1_mockup.png" alt="To-Do App with a couple of tasks, some of them crossed-off"/></div>
+<div style="text-align:center"><img src="img/todo_1_mockup.png" /></div>
 <h2 id="window"><a class="header" href="#window">Window</a></h2>
 <p>This mockup can be described by the following composite template.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/todo/1/resources/window.ui">listings/todo/1/resources/window.ui</a></p>
@@ -201,9 +201,9 @@ As usual, we have to list all <a href="https://docs.gtk.org/gtk4/class.Applicati
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod imp;
 </span><span class="boring">
 </span><span class="boring">use glib::{clone, Object};
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, Application, NoSelection, SignalListItemFactory};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">
 </span><span class="boring">use crate::task_object::TaskObject;
 </span><span class="boring">use crate::task_row::TaskRow;
@@ -218,7 +218,7 @@ As usual, we have to list all <a href="https://docs.gtk.org/gtk4/class.Applicati
 </span><span class="boring">impl Window {
 </span><span class="boring">    pub fn new(app: &amp;Application) -&gt; Self {
 </span><span class="boring">        // Create new window
-</span><span class="boring">        Object::builder().property(&quot;application&quot;, app).build()
+</span><span class="boring">        Object::new(&amp;[(&quot;application&quot;, app)])
 </span><span class="boring">    }
 </span><span class="boring">
 </span><span class="boring">    fn tasks(&amp;self) -&gt; gio::ListStore {
@@ -238,7 +238,7 @@ As usual, we have to list all <a href="https://docs.gtk.org/gtk4/class.Applicati
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with selection and pass it to the list view
-</span><span class="boring">        let selection_model = NoSelection::new(Some(self.tasks()));
+</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;self.tasks()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">    }
 </span><span class="boring">
@@ -261,7 +261,7 @@ As usual, we have to list all <a href="https://docs.gtk.org/gtk4/class.Applicati
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text().to_string();
+</span><span class="boring">        let content = buffer.text();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -280,28 +280,23 @@ As usual, we have to list all <a href="https://docs.gtk.org/gtk4/class.Applicati
 </span><span class="boring">        factory.connect_setup(move |_, list_item| {
 </span><span class="boring">            // Create `TaskRow`
 </span><span class="boring">            let task_row = TaskRow::new();
-</span><span class="boring">            list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
-</span><span class="boring">                .set_child(Some(&amp;task_row));
+</span><span class="boring">            list_item.set_child(Some(&amp;task_row));
 </span><span class="boring">        });
 </span><span class="boring">
 </span><span class="boring">        // Tell factory how to bind `TaskRow` to a `TaskObject`
 </span><span class="boring">        factory.connect_bind(move |_, list_item| {
 </span><span class="boring">            // Get `TaskObject` from `ListItem`
 </span><span class="boring">            let task_object = list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">                .item()
-</span><span class="boring">                .and_downcast::&lt;TaskObject&gt;()
+</span><span class="boring">                .expect(&quot;The item has to exist.&quot;)
+</span><span class="boring">                .downcast::&lt;TaskObject&gt;()
 </span><span class="boring">                .expect(&quot;The item has to be an `TaskObject`.&quot;);
 </span><span class="boring">
 </span><span class="boring">            // Get `TaskRow` from `ListItem`
 </span><span class="boring">            let task_row = list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">                .child()
-</span><span class="boring">                .and_downcast::&lt;TaskRow&gt;()
+</span><span class="boring">                .expect(&quot;The child has to exist.&quot;)
+</span><span class="boring">                .downcast::&lt;TaskRow&gt;()
 </span><span class="boring">                .expect(&quot;The child has to be a `TaskRow`.&quot;);
 </span><span class="boring">
 </span><span class="boring">            task_row.bind(&amp;task_object);
@@ -311,10 +306,9 @@ As usual, we have to list all <a href="https://docs.gtk.org/gtk4/class.Applicati
 </span><span class="boring">        factory.connect_unbind(move |_, list_item| {
 </span><span class="boring">            // Get `TaskRow` from `ListItem`
 </span><span class="boring">            let task_row = list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">                .child()
-</span><span class="boring">                .and_downcast::&lt;TaskRow&gt;()
+</span><span class="boring">                .expect(&quot;The child has to exist.&quot;)
+</span><span class="boring">                .downcast::&lt;TaskRow&gt;()
 </span><span class="boring">                .expect(&quot;The child has to be a `TaskRow`.&quot;);
 </span><span class="boring">
 </span><span class="boring">            task_row.unbind();
@@ -333,6 +327,7 @@ We only have to assure that the <code>class</code> attribute of the template in 
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">
 </span><span class="boring">use glib::subclass::InitializingObject;
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, CompositeTemplate, Entry, ListView};
 </span><span class="boring">
@@ -393,10 +388,10 @@ impl ObjectSubclass for Window {
 </span><span class="boring">mod window;
 </span><span class="boring">
 </span><span class="boring">use gtk::prelude::*;
-</span><span class="boring">use gtk::{gio, glib, Application};
+</span><span class="boring">use gtk::{gio, Application};
 </span><span class="boring">use window::Window;
 </span><span class="boring">
-</span>fn main() -&gt; glib::ExitCode {
+</span>fn main() {
     // Register and include resources
     gio::resources_register_include!(&quot;todo_1.gresource&quot;)
         .expect(&quot;Failed to register resources.&quot;);
@@ -410,7 +405,7 @@ impl ObjectSubclass for Window {
     app.connect_activate(build_ui);
 
     // Run the application
-    app.run()
+    app.run();
 }
 
 fn build_ui(app: &amp;Application) {
@@ -435,7 +430,7 @@ The main user interface is done, but the entry does not react to input yet.
 Also, where would the input go?
 We haven't even set up the list model yet.
 Let's do that!</p>
-<div style="text-align:center"><img src="img/todo_1_empty.png" alt="To-Do app without any content"/></div>
+<div style="text-align:center"><img src="img/todo_1_empty.png" /></div>
 <p>As discussed in the <a href="./list_widgets.html">list widgets chapter</a>,
 we start out by creating a custom GObject.
 This object will store the state of the task consisting of:</p>
@@ -455,10 +450,7 @@ This object will store the state of the task consisting of:</p>
 
 impl TaskObject {
     pub fn new(completed: bool, content: String) -&gt; Self {
-        Object::builder()
-            .property(&quot;completed&quot;, completed)
-            .property(&quot;content&quot;, content)
-            .build()
+        Object::new(&amp;[(&quot;completed&quot;, &amp;completed), (&quot;content&quot;, &amp;content)])
     }
 }
 <span class="boring">
@@ -481,10 +473,7 @@ This will be very convenient when saving the state in one of the following chapt
 </span><span class="boring">
 </span><span class="boring">impl TaskObject {
 </span><span class="boring">    pub fn new(completed: bool, content: String) -&gt; Self {
-</span><span class="boring">        Object::builder()
-</span><span class="boring">            .property(&quot;completed&quot;, completed)
-</span><span class="boring">            .property(&quot;content&quot;, content)
-</span><span class="boring">            .build()
+</span><span class="boring">        Object::new(&amp;[(&quot;completed&quot;, &amp;completed), (&quot;content&quot;, &amp;content)])
 </span><span class="boring">    }
 </span><span class="boring">}
 </span><span class="boring">
@@ -560,7 +549,7 @@ impl ObjectSubclass for TaskObject {
 <h2 id="to-do-row"><a class="header" href="#to-do-row">To-Do Row</a></h2>
 <p>Let's move on to the individual tasks.
 The row of a task should look like this:</p>
-<div style="text-align:center"><img src="img/task_row.png" alt="A single task widget"/></div>
+<div style="text-align:center"><img src="img/task_row.png" /></div>
 <p>Again, we describe the mockup with a composite template.</p>
 <p>Filename: <a class=file-link href="https://github.com/gtk-rs/gtk4-rs/blob/master/book/listings/todo/1/resources/task_row.ui">listings/todo/1/resources/task_row.ui</a></p>
 <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
@@ -611,7 +600,7 @@ The row of a task should look like this:</p>
 </span><span class="boring">
 </span><span class="boring">impl TaskRow {
 </span><span class="boring">    pub fn new() -&gt; Self {
-</span><span class="boring">        Object::builder().build()
+</span><span class="boring">        Object::new(&amp;[])
 </span><span class="boring">    }
 </span><span class="boring">
 </span><span class="boring">    pub fn bind(&amp;self, task_object: &amp;TaskObject) {
@@ -668,6 +657,7 @@ Why we need that will become clear as soon as we get to bind the state of <code>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">
 </span><span class="boring">use glib::Binding;
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{glib, CheckButton, CompositeTemplate, Label};
 </span><span class="boring">
@@ -714,6 +704,7 @@ We override the <code>imp::Window::constructed</code> in order to set up window 
 <pre><code class="language-rust  no_run noplayground"><span class="boring">use std::cell::RefCell;
 </span><span class="boring">
 </span><span class="boring">use glib::subclass::InitializingObject;
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, CompositeTemplate, Entry, ListView};
 </span><span class="boring">
@@ -774,9 +765,9 @@ Then we store a reference to the model in <code>imp::Window</code> as well as in
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod imp;
 </span><span class="boring">
 </span><span class="boring">use glib::{clone, Object};
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, Application, NoSelection, SignalListItemFactory};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">
 </span><span class="boring">use crate::task_object::TaskObject;
 </span><span class="boring">use crate::task_row::TaskRow;
@@ -791,7 +782,7 @@ Then we store a reference to the model in <code>imp::Window</code> as well as in
 </span><span class="boring">impl Window {
 </span><span class="boring">    pub fn new(app: &amp;Application) -&gt; Self {
 </span><span class="boring">        // Create new window
-</span><span class="boring">        Object::builder().property(&quot;application&quot;, app).build()
+</span><span class="boring">        Object::new(&amp;[(&quot;application&quot;, app)])
 </span><span class="boring">    }
 </span><span class="boring">
 </span>    fn tasks(&amp;self) -&gt; gio::ListStore {
@@ -811,7 +802,7 @@ Then we store a reference to the model in <code>imp::Window</code> as well as in
         self.imp().tasks.replace(Some(model));
 
         // Wrap model with selection and pass it to the list view
-        let selection_model = NoSelection::new(Some(self.tasks()));
+        let selection_model = NoSelection::new(Some(&amp;self.tasks()));
         self.imp().tasks_list.set_model(Some(&amp;selection_model));
     }
 <span class="boring">
@@ -834,7 +825,7 @@ Then we store a reference to the model in <code>imp::Window</code> as well as in
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text().to_string();
+</span><span class="boring">        let content = buffer.text();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -853,28 +844,23 @@ Then we store a reference to the model in <code>imp::Window</code> as well as in
 </span><span class="boring">        factory.connect_setup(move |_, list_item| {
 </span><span class="boring">            // Create `TaskRow`
 </span><span class="boring">            let task_row = TaskRow::new();
-</span><span class="boring">            list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
-</span><span class="boring">                .set_child(Some(&amp;task_row));
+</span><span class="boring">            list_item.set_child(Some(&amp;task_row));
 </span><span class="boring">        });
 </span><span class="boring">
 </span><span class="boring">        // Tell factory how to bind `TaskRow` to a `TaskObject`
 </span><span class="boring">        factory.connect_bind(move |_, list_item| {
 </span><span class="boring">            // Get `TaskObject` from `ListItem`
 </span><span class="boring">            let task_object = list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">                .item()
-</span><span class="boring">                .and_downcast::&lt;TaskObject&gt;()
+</span><span class="boring">                .expect(&quot;The item has to exist.&quot;)
+</span><span class="boring">                .downcast::&lt;TaskObject&gt;()
 </span><span class="boring">                .expect(&quot;The item has to be an `TaskObject`.&quot;);
 </span><span class="boring">
 </span><span class="boring">            // Get `TaskRow` from `ListItem`
 </span><span class="boring">            let task_row = list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">                .child()
-</span><span class="boring">                .and_downcast::&lt;TaskRow&gt;()
+</span><span class="boring">                .expect(&quot;The child has to exist.&quot;)
+</span><span class="boring">                .downcast::&lt;TaskRow&gt;()
 </span><span class="boring">                .expect(&quot;The child has to be a `TaskRow`.&quot;);
 </span><span class="boring">
 </span><span class="boring">            task_row.bind(&amp;task_object);
@@ -884,10 +870,9 @@ Then we store a reference to the model in <code>imp::Window</code> as well as in
 </span><span class="boring">        factory.connect_unbind(move |_, list_item| {
 </span><span class="boring">            // Get `TaskRow` from `ListItem`
 </span><span class="boring">            let task_row = list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">                .child()
-</span><span class="boring">                .and_downcast::&lt;TaskRow&gt;()
+</span><span class="boring">                .expect(&quot;The child has to exist.&quot;)
+</span><span class="boring">                .downcast::&lt;TaskRow&gt;()
 </span><span class="boring">                .expect(&quot;The child has to be a `TaskRow`.&quot;);
 </span><span class="boring">
 </span><span class="boring">            task_row.unbind();
@@ -905,9 +890,9 @@ Finally, the entry will be cleared.</p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod imp;
 </span><span class="boring">
 </span><span class="boring">use glib::{clone, Object};
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, Application, NoSelection, SignalListItemFactory};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">
 </span><span class="boring">use crate::task_object::TaskObject;
 </span><span class="boring">use crate::task_row::TaskRow;
@@ -922,7 +907,7 @@ Finally, the entry will be cleared.</p>
 </span><span class="boring">impl Window {
 </span><span class="boring">    pub fn new(app: &amp;Application) -&gt; Self {
 </span><span class="boring">        // Create new window
-</span><span class="boring">        Object::builder().property(&quot;application&quot;, app).build()
+</span><span class="boring">        Object::new(&amp;[(&quot;application&quot;, app)])
 </span><span class="boring">    }
 </span><span class="boring">
 </span><span class="boring">    fn tasks(&amp;self) -&gt; gio::ListStore {
@@ -942,7 +927,7 @@ Finally, the entry will be cleared.</p>
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with selection and pass it to the list view
-</span><span class="boring">        let selection_model = NoSelection::new(Some(self.tasks()));
+</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;self.tasks()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">    }
 </span><span class="boring">
@@ -965,7 +950,7 @@ Finally, the entry will be cleared.</p>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text().to_string();
+</span><span class="boring">        let content = buffer.text();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -984,28 +969,23 @@ Finally, the entry will be cleared.</p>
 </span><span class="boring">        factory.connect_setup(move |_, list_item| {
 </span><span class="boring">            // Create `TaskRow`
 </span><span class="boring">            let task_row = TaskRow::new();
-</span><span class="boring">            list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
-</span><span class="boring">                .set_child(Some(&amp;task_row));
+</span><span class="boring">            list_item.set_child(Some(&amp;task_row));
 </span><span class="boring">        });
 </span><span class="boring">
 </span><span class="boring">        // Tell factory how to bind `TaskRow` to a `TaskObject`
 </span><span class="boring">        factory.connect_bind(move |_, list_item| {
 </span><span class="boring">            // Get `TaskObject` from `ListItem`
 </span><span class="boring">            let task_object = list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">                .item()
-</span><span class="boring">                .and_downcast::&lt;TaskObject&gt;()
+</span><span class="boring">                .expect(&quot;The item has to exist.&quot;)
+</span><span class="boring">                .downcast::&lt;TaskObject&gt;()
 </span><span class="boring">                .expect(&quot;The item has to be an `TaskObject`.&quot;);
 </span><span class="boring">
 </span><span class="boring">            // Get `TaskRow` from `ListItem`
 </span><span class="boring">            let task_row = list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">                .child()
-</span><span class="boring">                .and_downcast::&lt;TaskRow&gt;()
+</span><span class="boring">                .expect(&quot;The child has to exist.&quot;)
+</span><span class="boring">                .downcast::&lt;TaskRow&gt;()
 </span><span class="boring">                .expect(&quot;The child has to be a `TaskRow`.&quot;);
 </span><span class="boring">
 </span><span class="boring">            task_row.bind(&amp;task_object);
@@ -1015,10 +995,9 @@ Finally, the entry will be cleared.</p>
 </span><span class="boring">        factory.connect_unbind(move |_, list_item| {
 </span><span class="boring">            // Get `TaskRow` from `ListItem`
 </span><span class="boring">            let task_row = list_item
-</span><span class="boring">                .downcast_ref::&lt;ListItem&gt;()
-</span><span class="boring">                .expect(&quot;Needs to be ListItem&quot;)
 </span><span class="boring">                .child()
-</span><span class="boring">                .and_downcast::&lt;TaskRow&gt;()
+</span><span class="boring">                .expect(&quot;The child has to exist.&quot;)
+</span><span class="boring">                .downcast::&lt;TaskRow&gt;()
 </span><span class="boring">                .expect(&quot;The child has to be a `TaskRow`.&quot;);
 </span><span class="boring">
 </span><span class="boring">            task_row.unbind();
@@ -1042,9 +1021,9 @@ We will need to unbind them manually when they are no longer needed.</p>
 <pre><code class="language-rust  no_run noplayground"><span class="boring">mod imp;
 </span><span class="boring">
 </span><span class="boring">use glib::{clone, Object};
+</span><span class="boring">use gtk::prelude::*;
 </span><span class="boring">use gtk::subclass::prelude::*;
 </span><span class="boring">use gtk::{gio, glib, Application, NoSelection, SignalListItemFactory};
-</span><span class="boring">use gtk::{prelude::*, ListItem};
 </span><span class="boring">
 </span><span class="boring">use crate::task_object::TaskObject;
 </span><span class="boring">use crate::task_row::TaskRow;
@@ -1059,7 +1038,7 @@ We will need to unbind them manually when they are no longer needed.</p>
 </span><span class="boring">impl Window {
 </span><span class="boring">    pub fn new(app: &amp;Application) -&gt; Self {
 </span><span class="boring">        // Create new window
-</span><span class="boring">        Object::builder().property(&quot;application&quot;, app).build()
+</span><span class="boring">        Object::new(&amp;[(&quot;application&quot;, app)])
 </span><span class="boring">    }
 </span><span class="boring">
 </span><span class="boring">    fn tasks(&amp;self) -&gt; gio::ListStore {
@@ -1079,7 +1058,7 @@ We will need to unbind them manually when they are no longer needed.</p>
 </span><span class="boring">        self.imp().tasks.replace(Some(model));
 </span><span class="boring">
 </span><span class="boring">        // Wrap model with selection and pass it to the list view
-</span><span class="boring">        let selection_model = NoSelection::new(Some(self.tasks()));
+</span><span class="boring">        let selection_model = NoSelection::new(Some(&amp;self.tasks()));
 </span><span class="boring">        self.imp().tasks_list.set_model(Some(&amp;selection_model));
 </span><span class="boring">    }
 </span><span class="boring">
@@ -1102,7 +1081,7 @@ We will need to unbind them manually when they are no longer needed.</p>
 </span><span class="boring">    fn new_task(&amp;self) {
 </span><span class="boring">        // Get content from entry and clear it
 </span><span class="boring">        let buffer = self.imp().entry.buffer();
-</span><span class="boring">        let content = buffer.text().to_string();
+</span><span class="boring">        let content = buffer.text();
 </span><span class="boring">        if content.is_empty() {
 </span><span class="boring">            return;
 </span><span class="boring">        }
@@ -1121,28 +1100,23 @@ We will need to unbind them manually when they are no longer needed.</p>
         factory.connect_setup(move |_, list_item| {
             // Create `TaskRow`
             let task_row = TaskRow::new();
-            list_item
-                .downcast_ref::&lt;ListItem&gt;()
-                .expect(&quot;Needs to be ListItem&quot;)
-                .set_child(Some(&amp;task_row));
+            list_item.set_child(Some(&amp;task_row));
         });
 
         // Tell factory how to bind `TaskRow` to a `TaskObject`
         factory.connect_bind(move |_, list_item| {
             // Get `TaskObject` from `ListItem`
             let task_object = list_item
-                .downcast_ref::&lt;ListItem&gt;()
-                .expect(&quot;Needs to be ListItem&quot;)
                 .item()
-                .and_downcast::&lt;TaskObject&gt;()
+                .expect(&quot;The item has to exist.&quot;)
+                .downcast::&lt;TaskObject&gt;()
                 .expect(&quot;The item has to be an `TaskObject`.&quot;);
 
             // Get `TaskRow` from `ListItem`
             let task_row = list_item
-                .downcast_ref::&lt;ListItem&gt;()
-                .expect(&quot;Needs to be ListItem&quot;)
                 .child()
-                .and_downcast::&lt;TaskRow&gt;()
+                .expect(&quot;The child has to exist.&quot;)
+                .downcast::&lt;TaskRow&gt;()
                 .expect(&quot;The child has to be a `TaskRow`.&quot;);
 
             task_row.bind(&amp;task_object);
@@ -1152,10 +1126,9 @@ We will need to unbind them manually when they are no longer needed.</p>
         factory.connect_unbind(move |_, list_item| {
             // Get `TaskRow` from `ListItem`
             let task_row = list_item
-                .downcast_ref::&lt;ListItem&gt;()
-                .expect(&quot;Needs to be ListItem&quot;)
                 .child()
-                .and_downcast::&lt;TaskRow&gt;()
+                .expect(&quot;The child has to exist.&quot;)
+                .downcast::&lt;TaskRow&gt;()
                 .expect(&quot;The child has to be a `TaskRow`.&quot;);
 
             task_row.unbind();
@@ -1195,7 +1168,7 @@ Unbinding will only work if it can access the stored <a href="https://gtk-rs.org
 </span><span class="boring">
 </span><span class="boring">impl TaskRow {
 </span><span class="boring">    pub fn new() -&gt; Self {
-</span><span class="boring">        Object::builder().build()
+</span><span class="boring">        Object::new(&amp;[])
 </span><span class="boring">    }
 </span><span class="boring">
 </span>    pub fn bind(&amp;self, task_object: &amp;TaskObject) {
@@ -1273,7 +1246,7 @@ In the end, it clears the vector.</p>
 </span><span class="boring">
 </span><span class="boring">impl TaskRow {
 </span><span class="boring">    pub fn new() -&gt; Self {
-</span><span class="boring">        Object::builder().build()
+</span><span class="boring">        Object::new(&amp;[])
 </span><span class="boring">    }
 </span><span class="boring">
 </span><span class="boring">    pub fn bind(&amp;self, task_object: &amp;TaskObject) {
@@ -1328,7 +1301,7 @@ We will extend it with additional functionality in the following chapters.</p>
 <div style="text-align:center">
  <video autoplay muted loop>
   <source src="vid/todo_1_animation.webm" type="video/webm">
-  <p>A video which shows how to enter tasks to the To-Do app</p>
+Your browser does not support the video tag.
  </video>
 </div>
 
